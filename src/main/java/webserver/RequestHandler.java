@@ -1,19 +1,26 @@
 package webserver;
 
-import java.io.BufferedReader;
+import static utils.FileManager.getRequestHeader;
+import static utils.FileManager.getStaticFilePath;
+import static utils.FileManager.getUrl;
+
 import java.io.DataOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.Socket;
+import java.nio.file.Files;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import utils.ContentTypeMapper;
+import utils.FileManager;
 
 public class RequestHandler implements Runnable {
+
     private static final Logger logger = LoggerFactory.getLogger(RequestHandler.class);
 
-    private Socket connection;
+    private final Socket connection;
 
     public RequestHandler(Socket connectionSocket) {
         this.connection = connectionSocket;
@@ -25,38 +32,35 @@ public class RequestHandler implements Runnable {
 
         try (InputStream in = connection.getInputStream(); OutputStream out = connection.getOutputStream()) {
             // TODO 사용자 요청에 대한 처리는 이 곳에 구현하면 된다.
-            BufferedReader br = new BufferedReader(new InputStreamReader(in));
-            String line;
-            StringBuilder requestHeaderBuilder = new StringBuilder();
-            while (!(line = br.readLine()).isEmpty()) {
-                requestHeaderBuilder.append(line).append("\n");
-            }
-            String requestHeader = requestHeaderBuilder.toString();
+            String requestHeader = getRequestHeader(in);
             printRequestHeader(requestHeader);
 
+            String url = getUrl(requestHeader);
+            String filePath = getStaticFilePath(url);
+            byte[] body = Files.readAllBytes(new File(filePath).toPath()); // 바이트 코드로 변환
+
             DataOutputStream dos = new DataOutputStream(out); // 데이터를 담아서 반환
-            byte[] body = "<h1>Hello World</h1>".getBytes();
-            response200Header(dos, body.length);
+
+            response200Header(dos, body.length, filePath);
             responseBody(dos, body);
         } catch (IOException e) {
             logger.error(e.getMessage());
         }
     }
 
+
     private void printRequestHeader(String requestHeader) {
         logger.debug("requestHeader= {}", requestHeader);
-
-        String requestLine = requestHeader.split("\n")[0];
-        logger.debug("requestLine= {}", requestLine);
-
-        String url = requestLine.split(" ")[1];
-        logger.debug("url={}", url);
     }
 
-    private void response200Header(DataOutputStream dos, int lengthOfBodyContent) { // 헤더 정보 입력
+
+    private void response200Header(DataOutputStream dos, int lengthOfBodyContent, String filePath) { // 헤더 정보 입력
         try {
+            String fileExtension = FileManager.getFileExtension(filePath);
+            String contentType = ContentTypeMapper.getContentType(fileExtension);
+
             dos.writeBytes("HTTP/1.1 200 OK \r\n");
-            dos.writeBytes("Content-Type: text/html;charset=utf-8\r\n");
+            dos.writeBytes("Content-Type: " + contentType + "\r\n");
             dos.writeBytes("Content-Length: " + lengthOfBodyContent + "\r\n");
             dos.writeBytes("\r\n");
         } catch (IOException e) {
