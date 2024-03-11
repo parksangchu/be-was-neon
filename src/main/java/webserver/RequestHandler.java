@@ -1,16 +1,15 @@
 package webserver;
 
+import static utils.FileManager.getFileBody;
 import static utils.FileManager.getRequestHeader;
 import static utils.FileManager.getStaticFilePath;
 import static utils.FileManager.getUrl;
 
 import java.io.DataOutputStream;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
-import java.nio.file.Files;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import utils.ContentTypeMapper;
@@ -37,7 +36,7 @@ public class RequestHandler implements Runnable {
 
             String url = getUrl(requestHeader);
             String filePath = getStaticFilePath(url);
-            byte[] body = Files.readAllBytes(new File(filePath).toPath()); // 바이트 코드로 변환
+            byte[] body = getFileBody(filePath);
 
             DataOutputStream dos = new DataOutputStream(out); // 데이터를 담아서 반환
 
@@ -48,11 +47,9 @@ public class RequestHandler implements Runnable {
         }
     }
 
-
     private void printRequestHeader(String requestHeader) {
         logger.debug("requestHeader= {}", requestHeader);
     }
-
 
     private void response200Header(DataOutputStream dos, int lengthOfBodyContent, String filePath) { // 헤더 정보 입력
         try {

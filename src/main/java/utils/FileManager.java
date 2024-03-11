@@ -1,9 +1,13 @@
 package utils;
 
+import java.io.BufferedInputStream;
 import java.io.BufferedReader;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
 
 public class FileManager {
     public static final String DEFAULT_FILE = "/index.html";
@@ -46,5 +50,21 @@ public class FileManager {
         }
 
         return filePath.substring(lastIndexOfDot + 1);
+    }
+
+    public static byte[] getFileBody(String filePath) throws IOException {
+        byte[] body;
+        try (BufferedInputStream bis = new BufferedInputStream(new FileInputStream(filePath))) {
+            List<Byte> bytes = new ArrayList<>();
+            int data;
+            while ((data = bis.read()) != -1) {
+                bytes.add((byte) data);
+            }
+            body = new byte[bytes.size()];
+            for (int i = 0; i < bytes.size(); i++) {
+                body[i] = bytes.get(i);
+            }
+        }
+        return body;
     }
 }
