@@ -18,7 +18,9 @@ import utils.UserMaker;
 
 public class RequestHandler implements Runnable {
 
+    public static final String CREATE_USER_URL = "/create";
     private static final Logger logger = LoggerFactory.getLogger(RequestHandler.class);
+    public static final String HOME_URL = "/";
 
     private final Socket connection;
 
@@ -36,26 +38,33 @@ public class RequestHandler implements Runnable {
             DataOutputStream dos = new DataOutputStream(out);
 
             String url = getUrl(requestHeader);
-            if (url.startsWith("/create")) {
-                UserMaker.createUser(url);
-                response302Header(dos, "/");
+            if (url.startsWith(CREATE_USER_URL)) { // create 요청시 유저 생성 후 홈으로 리다이렉트
+                createUser(url, dos);
                 return;
             }
-            String filePath = getStaticFilePath(url);
-            byte[] body = getFileBody(filePath);
-
-            // 데이터를 담아서 반환
-            response200Header(dos, body.length, filePath);
-            responseBody(dos, body);
+            showStaticResource(url, dos);
         } catch (IOException e) {
             logger.error(e.getMessage());
         }
     }
 
+    private void showStaticResource(String url, DataOutputStream dos) throws IOException {
+        String filePath = getStaticFilePath(url);
+        byte[] body = getFileBody(filePath);
+
+        // 데이터를 담아서 반환
+        response200Header(dos, body.length, filePath);
+        responseBody(dos, body);
+    }
+
+    private void createUser(String url, DataOutputStream dos) throws IOException {
+        UserMaker.createUser(url);
+        response302Header(dos, HOME_URL);
+    }
+
     private void printRequestHeader(String requestHeader) {
         logger.debug("requestHeader= {}", requestHeader);
     }
-
 
     private void response302Header(DataOutputStream dos, String redirectUrl) throws IOException {
         dos.writeBytes("HTTP/1.1 302 Found \r\n");
@@ -74,12 +83,8 @@ public class RequestHandler implements Runnable {
         dos.writeBytes("\r\n");
     }
 
-    private void responseBody(DataOutputStream dos, byte[] body) { // 바디 정보 입력
-        try {
-            dos.write(body, 0, body.length);
-            dos.flush();
-        } catch (IOException e) {
-            logger.error(e.getMessage());
-        }
+    private void responseBody(DataOutputStream dos, byte[] body) throws IOException { // 바디 정보 입력
+        dos.write(body, 0, body.length);
+        dos.flush();
     }
 }
