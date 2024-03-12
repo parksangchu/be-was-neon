@@ -12,7 +12,7 @@ public class User {
     public User(String userId, String password, String name, String email) {
         this.userId = userId;
         this.password = password;
-        this.name = name;
+        this.name = URLDecoder.decode(name, StandardCharsets.UTF_8);
         this.email = URLDecoder.decode(email, StandardCharsets.UTF_8);
     }
 
