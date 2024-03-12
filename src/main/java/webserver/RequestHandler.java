@@ -2,14 +2,13 @@ package webserver;
 
 import static utils.FileManager.getFileBody;
 import static utils.FileManager.getStaticFilePath;
-import static utils.RequestHeaderManager.getRequestHeader;
-import static utils.RequestHeaderManager.getUrl;
 
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
+import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import utils.ContentTypeMapper;
@@ -34,15 +33,18 @@ public class RequestHandler implements Runnable {
 
         try (InputStream in = connection.getInputStream(); OutputStream out = connection.getOutputStream()) {
             // TODO 사용자 요청에 대한 처리는 이 곳에 구현하면 된다.
-            String requestHeader = getRequestHeader(in);
+            HttpRequest httpRequest = new HttpRequest(in);
+            Map<String, String> requestHeader = httpRequest.getHeaders();
+            printRequestHeader(requestHeader);
+
             DataOutputStream dos = new DataOutputStream(out);
 
-            String url = getUrl(requestHeader);
-            if (url.startsWith(CREATE_USER_URL)) { // create 요청시 유저 생성 후 홈으로 리다이렉트
-                createUser(url, dos);
+            String path = httpRequest.getPath();
+            if (path.equals(CREATE_USER_URL)) { // create 요청시 유저 생성 후 홈으로 리다이렉트
+                createUser(httpRequest, dos);
                 return;
             }
-            showStaticResource(url, dos);
+            showStaticResource(path, dos);
         } catch (IOException e) {
             logger.error(e.getMessage());
         }
@@ -57,13 +59,15 @@ public class RequestHandler implements Runnable {
         responseBody(dos, body);
     }
 
-    private void createUser(String url, DataOutputStream dos) throws IOException {
-        UserMaker.createUser(url);
+    private void createUser(HttpRequest request, DataOutputStream dos) throws IOException {
+        UserMaker.createUser(request);
         response302Header(dos, HOME_URL);
     }
 
-    private void printRequestHeader(String requestHeader) {
-        logger.debug("requestHeader= {}", requestHeader);
+    private void printRequestHeader(Map<String, String> headers) {
+        for (String label : headers.keySet()) {
+            logger.debug(label + "= {}", headers.get(label));
+        }
     }
 
     private void response302Header(DataOutputStream dos, String redirectUrl) throws IOException {
