@@ -1,10 +1,8 @@
 package utils;
 
-import java.io.BufferedInputStream;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 public class FileManager {
     public static final String DEFAULT_FILE = "/index.html";
@@ -36,16 +34,10 @@ public class FileManager {
 
     public static byte[] getFileBody(String filePath) throws IOException {
         byte[] body;
-        try (BufferedInputStream bis = new BufferedInputStream(new FileInputStream(filePath))) {
-            List<Byte> bytes = new ArrayList<>();
-            int data;
-            while ((data = bis.read()) != -1) {
-                bytes.add((byte) data);
-            }
-            body = new byte[bytes.size()];
-            for (int i = 0; i < bytes.size(); i++) {
-                body[i] = bytes.get(i);
-            }
+        File file = new File(filePath);
+        try (FileInputStream fis = new FileInputStream(file)) {
+            body = new byte[(int) file.length()];
+            fis.read(body);
         }
         return body;
     }
