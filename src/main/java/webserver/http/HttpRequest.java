@@ -1,4 +1,4 @@
-package webserver;
+package webserver.http;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -116,5 +116,9 @@ public class HttpRequest {
 
     public void setParams(Map<String, String> params) {
         this.params = params;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
     }
 }
