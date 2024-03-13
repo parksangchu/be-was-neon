@@ -66,10 +66,6 @@ public class HttpResponse {
         headers.put("Content-Length", String.valueOf(length));
     }
 
-    public OutputStream getOut() {
-        return out;
-    }
-
     public HttpStatus getStatus() {
         return status;
     }
