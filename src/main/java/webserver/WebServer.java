@@ -6,6 +6,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import webserver.requesthandler.MainRequestHandler;
 
 public class WebServer {
     public static final int DEFAULT_PORT = 8080;
@@ -27,7 +28,7 @@ public class WebServer {
             // 클라이언트가 연결될때까지 대기한다.
             Socket connection;
             while ((connection = listenSocket.accept()) != null) {
-                executorService.execute(new RequestHandler(connection));
+                executorService.execute(new MainRequestHandler(connection));
 
             }
         } finally {

@@ -1,4 +1,4 @@
-package utils;
+package webserver.requesthandler;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
@@ -7,7 +7,8 @@ import java.util.Map;
 import model.User;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import webserver.HttpRequest;
+import webserver.http.HttpRequest;
+import webserver.http.HttpResponse;
 
 class UserMakerTest {
 
@@ -19,13 +20,16 @@ class UserMakerTest {
         HttpRequest request = new HttpRequest();
         request.setParams(params);
 
-        User user = UserMaker.createUser(request);
+        UserMaker userMaker = new UserMaker();
+        userMaker.handle(request, new HttpResponse());
+
+        User user = Database.findUserById("sangchu");
+
         assertThat(user.getUserId()).isEqualTo("sangchu");
         assertThat(user.getPassword()).isEqualTo("password");
         assertThat(user.getName()).isEqualTo("상추");
         assertThat(user.getEmail()).isEqualTo("sangchu@gmail.com");
 
-        User sangchu = Database.findUserById("sangchu");
-        assertThat(sangchu).isEqualTo(user);
+
     }
 }
