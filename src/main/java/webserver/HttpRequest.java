@@ -80,7 +80,7 @@ public class HttpRequest {
         if (headers.containsKey(CONTENT_LENGTH_LABEL)) {
             int contentLength = Integer.parseInt(headers.get(CONTENT_LENGTH_LABEL));
             char[] body = new char[contentLength];
-            br.read(body, 0, contentLength);
+            br.read(body);
             return new String(body);
         }
         return EMPTY_STRING;
