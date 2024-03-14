@@ -3,6 +3,7 @@ package webserver.http;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.net.HttpCookie;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -56,6 +57,10 @@ public class HttpResponse {
         this.body = body;
         setContentType(contentType);
         setContentLength(body.length);
+    }
+
+    public void setCookie(HttpCookie cookie) {
+        headers.put("Set-Cookie", cookie.getName() + "=" + cookie.getValue());
     }
 
     private void setContentType(ContentType contentType) {

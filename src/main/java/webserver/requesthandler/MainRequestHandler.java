@@ -22,7 +22,10 @@ public class MainRequestHandler implements Runnable {
     public MainRequestHandler(Socket connectionSocket) {
         this.connection = connectionSocket;
         requestHandlers = new HashMap<>();
+        requestHandlers.put("/", new HomeHandler());
         requestHandlers.put("/create", new UserMaker());
+        requestHandlers.put("/certification", new LoginHandler());
+        requestHandlers.put("/logout", new LogoutHandler());
     }
 
     public void run() {

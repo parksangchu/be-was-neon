@@ -16,6 +16,10 @@ public class User {
         this.email = URLDecoder.decode(email, StandardCharsets.UTF_8);
     }
 
+    public boolean hasSamePassword(String password) {
+        return this.password.equals(password);
+    }
+
     public String getUserId() {
         return userId;
     }
