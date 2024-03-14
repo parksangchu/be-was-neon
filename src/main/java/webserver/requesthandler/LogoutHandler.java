@@ -1,20 +1,21 @@
 package webserver.requesthandler;
 
-import java.io.IOException;
-import java.net.HttpCookie;
+import model.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import webserver.http.HttpRequest;
 import webserver.http.HttpResponse;
+import webserver.session.SessionManager;
 
 public class LogoutHandler implements RequestHandler {
     private static final Logger logger = LoggerFactory.getLogger(LogoutHandler.class);
 
     @Override
-    public void handle(HttpRequest request, HttpResponse response) throws IOException {
-        HttpCookie cookie = new HttpCookie("userId", null);
-        cookie.setMaxAge(0);
-        response.setCookie(cookie);
+    public void handle(HttpRequest request, HttpResponse response) {
+        User user = (User) SessionManager.findSession(request);
+        SessionManager.expire(request);
+
+        logger.debug("{} 님이 로그아웃 하셨습니다.", user.getUserId());
         response.setRedirect(MainRequestHandler.HOME_URL);
     }
 }

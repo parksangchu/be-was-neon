@@ -3,25 +3,18 @@ package webserver.requesthandler;
 import static webserver.requesthandler.StaticResourceFinder.DEFAULT_FILE;
 import static webserver.requesthandler.StaticResourceFinder.STATIC_DIRECTORY;
 
-import db.Database;
 import java.io.IOException;
-import java.net.HttpCookie;
 import java.util.Objects;
 import model.User;
 import webserver.http.ContentType;
 import webserver.http.HttpRequest;
 import webserver.http.HttpResponse;
+import webserver.session.SessionManager;
 
 public class HomeHandler implements RequestHandler {
     @Override
     public void handle(HttpRequest request, HttpResponse response) throws IOException {
-        HttpCookie cookie = request.getCookie("userId");
-        if (cookie == null) {
-            setDefaultHome(response);
-            return;
-        }
-        String userId = cookie.getValue();
-        User user = Database.findUserById(userId);
+        User user = (User) SessionManager.findSession(request);
         if (user == null) {
             setDefaultHome(response);
             return;
