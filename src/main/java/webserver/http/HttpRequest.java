@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.HttpCookie;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -84,6 +85,17 @@ public class HttpRequest {
             return new String(body);
         }
         return EMPTY_STRING;
+    }
+
+    public HttpCookie getCookie(String cookieName) {
+        String[] cookieParts = headers.get("Cookie").split(";\\s");
+        for (String cookiePart : cookieParts) {
+            HttpCookie cookie = HttpCookie.parse(cookiePart).get(0);
+            if (cookie.getName().equals(cookieName)) {
+                return cookie;
+            }
+        }
+        return null;
     }
 
     public String getHeader(String headerKey) {
