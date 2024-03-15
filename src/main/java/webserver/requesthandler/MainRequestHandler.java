@@ -13,9 +13,12 @@ import webserver.http.HttpRequest;
 import webserver.http.HttpResponse;
 
 public class MainRequestHandler implements Runnable {
-
     public static final String HOME_URL = "/";
+    public static final String REGISTRATION_URL = "/registration";
+    public static final String CREATE_URL = "/create";
+    public static final String CERTIFICATION_URL = "/certification";
     private static final Logger logger = LoggerFactory.getLogger(MainRequestHandler.class);
+    public static final String LOGOUT_URL = "/logout";
 
     private final Socket connection;
     private final Map<String, RequestHandler> requestHandlers;
@@ -27,10 +30,10 @@ public class MainRequestHandler implements Runnable {
 
     private Map<String, RequestHandler> initRequestHandlers() {
         Map<String, RequestHandler> requestHandlers = new HashMap<>();
-        requestHandlers.put("/", new HomeHandler());
-        requestHandlers.put("/create", new UserMaker());
-        requestHandlers.put("/certification", new LoginHandler());
-        requestHandlers.put("/logout", new LogoutHandler());
+        requestHandlers.put(HOME_URL, new HomeHandler());
+        requestHandlers.put(CREATE_URL, new UserMaker());
+        requestHandlers.put(CERTIFICATION_URL, new LoginHandler());
+        requestHandlers.put(LOGOUT_URL, new LogoutHandler());
         return requestHandlers;
     }
 
