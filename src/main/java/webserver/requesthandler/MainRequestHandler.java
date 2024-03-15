@@ -49,7 +49,7 @@ public class MainRequestHandler implements Runnable {
             HttpResponse response = new HttpResponse(out);
 
             Authenticator authenticator = new Authenticator();
-            boolean isAuthenticated = authenticator.isAuthenticated(request, response);// 인증이 필요한 페이지에 접근하는지 확인
+            boolean isAuthenticated = authenticator.isAuthenticated(request);// 인증이 필요한 페이지에 접근하는지 확인
 
             if (!isAuthenticated) {
                 executeInvalidAccessLogic(request, response);
