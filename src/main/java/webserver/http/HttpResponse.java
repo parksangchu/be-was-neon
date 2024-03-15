@@ -40,6 +40,10 @@ public class HttpResponse {
         dos.flush();
     }
 
+    public boolean isRedirect() {
+        return this.status == HttpStatus.FOUND;
+    }
+
     public void setRedirect(String url) {
         setHeader("Location", url);
         setStatus(HttpStatus.FOUND);
