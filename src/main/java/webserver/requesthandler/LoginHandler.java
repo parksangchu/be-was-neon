@@ -1,5 +1,7 @@
 package webserver.requesthandler;
 
+import static webserver.requesthandler.MainRequestHandler.LOGIN_FORM_URL;
+
 import db.Database;
 import java.io.IOException;
 import model.User;
@@ -7,11 +9,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import webserver.http.HttpRequest;
 import webserver.http.HttpResponse;
+import webserver.http.RedirectPath;
 import webserver.session.SessionManager;
 
 public class LoginHandler implements RequestHandler {
     private static final Logger logger = LoggerFactory.getLogger(LoginHandler.class);
-    public static final String LOGIN_FORM_URL = "/login";
+
 
     @Override
     public void handle(HttpRequest request, HttpResponse response) throws IOException {
@@ -28,7 +31,13 @@ public class LoginHandler implements RequestHandler {
             return;
         }
         SessionManager.createSession(findUser, response);
-        response.setRedirect(MainRequestHandler.HOME_URL);
+
+        if (RedirectPath.isEmpty()) {
+            response.setRedirect(MainRequestHandler.HOME_URL);
+        } else {
+            response.setRedirect(RedirectPath.getPath());
+        }
+
         logger.debug("{} 님이 로그인 하셨습니다.", userId);
     }
 }

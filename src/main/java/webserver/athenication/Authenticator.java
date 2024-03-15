@@ -1,10 +1,10 @@
 package webserver.athenication;
 
 import static utils.FileManager.FILE_EXTENSION_MARKER;
-import static webserver.requesthandler.LoginHandler.LOGIN_FORM_URL;
 import static webserver.requesthandler.MainRequestHandler.CERTIFICATION_URL;
 import static webserver.requesthandler.MainRequestHandler.CREATE_URL;
 import static webserver.requesthandler.MainRequestHandler.HOME_URL;
+import static webserver.requesthandler.MainRequestHandler.LOGIN_FORM_URL;
 import static webserver.requesthandler.MainRequestHandler.REGISTRATION_URL;
 
 import java.util.HashSet;
@@ -19,7 +19,6 @@ public class Authenticator {
 
     public Authenticator() {
         this.unauthenticatedUrls = initUnauthenticatedUrls();
-
     }
 
     private Set<String> initUnauthenticatedUrls() {

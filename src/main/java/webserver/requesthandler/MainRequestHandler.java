@@ -11,14 +11,16 @@ import org.slf4j.LoggerFactory;
 import webserver.athenication.Authenticator;
 import webserver.http.HttpRequest;
 import webserver.http.HttpResponse;
+import webserver.http.RedirectPath;
 
 public class MainRequestHandler implements Runnable {
     public static final String HOME_URL = "/";
     public static final String REGISTRATION_URL = "/registration";
     public static final String CREATE_URL = "/create";
     public static final String CERTIFICATION_URL = "/certification";
-    private static final Logger logger = LoggerFactory.getLogger(MainRequestHandler.class);
     public static final String LOGOUT_URL = "/logout";
+    public static final String LOGIN_FORM_URL = "/login";
+    private static final Logger logger = LoggerFactory.getLogger(MainRequestHandler.class);
 
     private final Socket connection;
     private final Map<String, RequestHandler> requestHandlers;
@@ -48,6 +50,8 @@ public class MainRequestHandler implements Runnable {
 
             authenticate(request, response); // 인증이 필요한 페이지에 접근하는지 확인
             if (response.isRedirect()) {
+                RedirectPath.clear();
+                RedirectPath.add(request.getPath());
                 response.send(); // 로그인이 되어있지 않은 상태로 인증이 필요한 페이지에 접근하면 리다이렉트
                 return;
             }
