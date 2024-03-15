@@ -12,20 +12,21 @@ import webserver.session.SessionManager;
 
 public class Authenticator {
 
-    private final Set<String> authenticatedUrls;
+    private final Set<String> unauthenticatedUrls;
 
     public Authenticator() {
-        this.authenticatedUrls = initUnauthenticatedUrls();
+        this.unauthenticatedUrls = initUnauthenticatedUrls();
 
     }
 
     private Set<String> initUnauthenticatedUrls() {
-        Set<String> authenticatedUrls = new HashSet<>();
-        authenticatedUrls.add("/main");
-        authenticatedUrls.add("/article");
-        authenticatedUrls.add("/comment");
-        authenticatedUrls.add("/logout");
-        return authenticatedUrls;
+        Set<String> unauthenticatedUrls = new HashSet<>();
+        unauthenticatedUrls.add(HOME_URL);
+        unauthenticatedUrls.add("/login");
+        unauthenticatedUrls.add("/registration");
+        unauthenticatedUrls.add("/create");
+        unauthenticatedUrls.add("/certification");
+        return unauthenticatedUrls;
     }
 
     public void authenticate(HttpRequest request, HttpResponse response) {
@@ -39,7 +40,7 @@ public class Authenticator {
         boolean isLoggedIn = checkLoginStatus(request);
 
         // 로그인이 안 되어 있고 인증이 필요한 경로일 경우 홈으로 리다이렉션
-        if (!isLoggedIn && authenticatedUrls.contains(requestPath)) {
+        if (!isLoggedIn && !unauthenticatedUrls.contains(requestPath)) {
             response.setRedirect(HOME_URL); // 로그인이 안 되어 있다면 추가 처리를 중단하고 리다이렉션
         }
     }
