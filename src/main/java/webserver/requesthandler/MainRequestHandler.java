@@ -49,9 +49,9 @@ public class MainRequestHandler implements Runnable {
             HttpResponse response = new HttpResponse(out);
 
             Authenticator authenticator = new Authenticator();
-            authenticator.authenticate(request, response); // 인증이 필요한 페이지에 접근하는지 확인
+            boolean isAuthenticated = authenticator.isAuthenticated(request, response);// 인증이 필요한 페이지에 접근하는지 확인
 
-            if (response.isRedirect()) {
+            if (!isAuthenticated) {
                 executeInvalidAccessLogic(request, response);
                 return;
             }
@@ -68,7 +68,7 @@ public class MainRequestHandler implements Runnable {
     private void executeInvalidAccessLogic(HttpRequest request, HttpResponse response) throws IOException {
         RedirectPath.clear();
         RedirectPath.add(request.getPath());
-        response.send(); // 로그인이 되어있지 않은 상태로 인증이 필요한 페이지에 접근하면 리다이렉트
+        response.sendRedirect(LOGIN_FORM_URL); // 로그인이 되어있지 않은 상태로 인증이 필요한 페이지에 접근하면 리다이렉트
     }
 
     private RequestHandler findRequestHandler(HttpRequest request) {
