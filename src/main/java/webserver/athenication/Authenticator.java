@@ -11,7 +11,6 @@ import java.util.HashSet;
 import java.util.Set;
 import model.User;
 import webserver.http.HttpRequest;
-import webserver.http.HttpResponse;
 import webserver.session.SessionManager;
 
 public class Authenticator {
@@ -31,7 +30,7 @@ public class Authenticator {
         return unauthenticatedUrls;
     }
 
-    public boolean isAuthenticated(HttpRequest request, HttpResponse response) {
+    public boolean isAuthenticated(HttpRequest request) {
         String requestPath = request.getPath();
         // 정적 자원 요청인 경우 (예: css, jpg 등), 처리를 계속 진행
         if (isStaticResourceRequest(requestPath)) {

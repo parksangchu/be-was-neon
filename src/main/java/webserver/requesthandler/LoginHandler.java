@@ -3,7 +3,6 @@ package webserver.requesthandler;
 import static webserver.requesthandler.MainRequestHandler.LOGIN_FORM_URL;
 
 import db.Database;
-import java.io.IOException;
 import model.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,7 +16,7 @@ public class LoginHandler implements RequestHandler {
 
 
     @Override
-    public void handle(HttpRequest request, HttpResponse response) throws IOException {
+    public void handle(HttpRequest request, HttpResponse response) {
         String userId = request.getParameter("userId");
         String password = request.getParameter("password");
 
