@@ -1,7 +1,11 @@
 package webserver.athenication;
 
 import static utils.FileManager.FILE_EXTENSION_MARKER;
+import static webserver.requesthandler.LoginHandler.LOGIN_FORM_URL;
+import static webserver.requesthandler.MainRequestHandler.CERTIFICATION_URL;
+import static webserver.requesthandler.MainRequestHandler.CREATE_URL;
 import static webserver.requesthandler.MainRequestHandler.HOME_URL;
+import static webserver.requesthandler.MainRequestHandler.REGISTRATION_URL;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -11,7 +15,6 @@ import webserver.http.HttpResponse;
 import webserver.session.SessionManager;
 
 public class Authenticator {
-
     private final Set<String> unauthenticatedUrls;
 
     public Authenticator() {
@@ -22,10 +25,10 @@ public class Authenticator {
     private Set<String> initUnauthenticatedUrls() {
         Set<String> unauthenticatedUrls = new HashSet<>();
         unauthenticatedUrls.add(HOME_URL);
-        unauthenticatedUrls.add("/login");
-        unauthenticatedUrls.add("/registration");
-        unauthenticatedUrls.add("/create");
-        unauthenticatedUrls.add("/certification");
+        unauthenticatedUrls.add(LOGIN_FORM_URL);
+        unauthenticatedUrls.add(REGISTRATION_URL);
+        unauthenticatedUrls.add(CREATE_URL);
+        unauthenticatedUrls.add(CERTIFICATION_URL);
         return unauthenticatedUrls;
     }
 
@@ -39,9 +42,9 @@ public class Authenticator {
         // 로그인 여부 확인 로직
         boolean isLoggedIn = checkLoginStatus(request);
 
-        // 로그인이 안 되어 있고 인증이 필요한 경로일 경우 홈으로 리다이렉션
-        if (!isLoggedIn && !unauthenticatedUrls.contains(requestPath)) {
-            response.setRedirect(HOME_URL); // 로그인이 안 되어 있다면 추가 처리를 중단하고 리다이렉션
+        // 로그인이 안 되어 있고 인증이 필요한 경로일 경우 로그인 페이지로 리다이렉션 설정
+        if (!isLoggedIn && isLoginCheckPath(requestPath)) {
+            response.setRedirect(LOGIN_FORM_URL + requestPath);
         }
     }
 
@@ -55,5 +58,9 @@ public class Authenticator {
         // 예: 쿠키 또는 세션을 통한 로그인 상태 확인
         User user = (User) SessionManager.findSession(request);
         return user != null;
+    }
+
+    private boolean isLoginCheckPath(String requestPath) {
+        return !unauthenticatedUrls.contains(requestPath);
     }
 }
