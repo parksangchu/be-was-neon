@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import webserver.athenication.Authenticator;
 import webserver.http.HttpRequest;
 import webserver.http.HttpResponse;
 
@@ -21,11 +22,16 @@ public class MainRequestHandler implements Runnable {
 
     public MainRequestHandler(Socket connectionSocket) {
         this.connection = connectionSocket;
-        requestHandlers = new HashMap<>();
+        requestHandlers = initRequestHandlers();
+    }
+
+    private Map<String, RequestHandler> initRequestHandlers() {
+        Map<String, RequestHandler> requestHandlers = new HashMap<>();
         requestHandlers.put("/", new HomeHandler());
         requestHandlers.put("/create", new UserMaker());
         requestHandlers.put("/certification", new LoginHandler());
         requestHandlers.put("/logout", new LogoutHandler());
+        return requestHandlers;
     }
 
     public void run() {
@@ -37,13 +43,24 @@ public class MainRequestHandler implements Runnable {
             HttpRequest request = new HttpRequest(in);
             HttpResponse response = new HttpResponse(out);
 
-            RequestHandler requestHandler = findRequestHandler(request);
+            authenticate(request, response); // 인증이 필요한 페이지에 접근하는지 확인
+            if (response.isRedirect()) {
+                response.send(); // 로그인이 되어있지 않은 상태로 인증이 필요한 페이지에 접근하면 리다이렉트
+                return;
+            }
 
+            RequestHandler requestHandler = findRequestHandler(request);
             requestHandler.handle(request, response);
+
             response.send();
         } catch (IOException e) {
             logger.error(e.getMessage());
         }
+    }
+
+    private void authenticate(HttpRequest request, HttpResponse response) throws IOException {
+        Authenticator authenticator = new Authenticator();
+        authenticator.authenticate(request, response);
     }
 
     private RequestHandler findRequestHandler(HttpRequest request) {
