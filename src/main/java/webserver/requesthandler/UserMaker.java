@@ -1,6 +1,6 @@
 package webserver.requesthandler;
 
-import static webserver.requesthandler.MainRequestHandler.HOME_URL;
+import static webserver.requesthandler.MainRequestHandler.LOGIN_FORM_URL;
 
 import db.Database;
 import model.User;
@@ -19,6 +19,6 @@ public class UserMaker implements RequestHandler {
                 request.getParameter("email"));
         Database.addUser(user);
         logger.debug("신규 유저가 생성되었습니다. {}", user);
-        response.setRedirect(HOME_URL);
+        response.setRedirect(LOGIN_FORM_URL);
     }
 }

@@ -36,6 +36,7 @@ public class LoginHandler implements RequestHandler {
             response.setRedirect(MainRequestHandler.HOME_URL);
         } else {
             response.setRedirect(RedirectPath.getPath());
+            RedirectPath.clear();
         }
 
         logger.debug("{} 님이 로그인 하셨습니다.", userId);
