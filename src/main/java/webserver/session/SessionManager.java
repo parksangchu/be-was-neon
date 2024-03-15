@@ -16,6 +16,7 @@ public class SessionManager {
         sessions.put(sessionId, object);
 
         HttpCookie cookie = new HttpCookie(SESSION_COOKIE_NAME, sessionId);
+        cookie.setMaxAge(60);
         response.setCookie(cookie);
     }
 

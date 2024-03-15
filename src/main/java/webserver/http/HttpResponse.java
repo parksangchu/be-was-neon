@@ -6,6 +6,7 @@ import java.io.OutputStream;
 import java.net.HttpCookie;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.StringJoiner;
 
 public class HttpResponse {
     private final OutputStream out;
@@ -64,7 +65,13 @@ public class HttpResponse {
     }
 
     public void setCookie(HttpCookie cookie) {
-        headers.put("Set-Cookie", cookie.getName() + "=" + cookie.getValue());
+        StringJoiner sj = new StringJoiner("; ");
+        sj.add(cookie.getName() + "=" + cookie.getValue());
+        if (cookie.getMaxAge() != -1) {
+            sj.add("Max-Age=" + cookie.getMaxAge());
+        }
+
+        headers.put("Set-Cookie", sj.toString());
     }
 
     private void setContentType(ContentType contentType) {

@@ -44,7 +44,7 @@ public class Authenticator {
 
         // 로그인이 안 되어 있고 인증이 필요한 경로일 경우 로그인 페이지로 리다이렉션 설정
         if (!isLoggedIn && isLoginCheckPath(requestPath)) {
-            response.setRedirect(LOGIN_FORM_URL + requestPath);
+            response.setRedirect(LOGIN_FORM_URL);
         }
     }
 
