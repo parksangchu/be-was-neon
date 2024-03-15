@@ -41,8 +41,9 @@ public class HttpResponse {
         dos.flush();
     }
 
-    public boolean isRedirect() {
-        return this.status == HttpStatus.FOUND;
+    public void sendRedirect(String url) throws IOException {
+        setRedirect(url);
+        send();
     }
 
     public void setRedirect(String url) {

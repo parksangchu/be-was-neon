@@ -31,11 +31,11 @@ public class Authenticator {
         return unauthenticatedUrls;
     }
 
-    public void authenticate(HttpRequest request, HttpResponse response) {
+    public boolean isAuthenticated(HttpRequest request, HttpResponse response) {
         String requestPath = request.getPath();
         // 정적 자원 요청인 경우 (예: css, jpg 등), 처리를 계속 진행
         if (isStaticResourceRequest(requestPath)) {
-            return;
+            return true;
         }
 
         // 로그인 여부 확인 로직
@@ -43,8 +43,9 @@ public class Authenticator {
 
         // 로그인이 안 되어 있고 인증이 필요한 경로일 경우 로그인 페이지로 리다이렉션 설정
         if (!isLoggedIn && isLoginCheckPath(requestPath)) {
-            response.setRedirect(LOGIN_FORM_URL);
+            return false;
         }
+        return true;
     }
 
     private boolean isStaticResourceRequest(String path) {
