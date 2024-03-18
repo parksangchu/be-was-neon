@@ -1,7 +1,5 @@
 package webserver.requesthandler;
 
-import static utils.FileManager.FILE_EXTENSION_MARKER;
-
 import java.io.IOException;
 import java.io.InputStream;
 import utils.FileManager;
@@ -11,7 +9,6 @@ import webserver.http.HttpResponse;
 import webserver.http.HttpStatus;
 
 public class StaticResourceFinder implements RequestHandler {
-    public static final String DEFAULT_FILE = "/index.html";
     public static final String STATIC_DIRECTORY = "/static";
 
     @Override
@@ -32,15 +29,12 @@ public class StaticResourceFinder implements RequestHandler {
 
 
     private InputStream getStaticResourceStream(String path) {
-        String modifiedPath = getModifiedPath(path);
-        return getClass().getResourceAsStream(modifiedPath);
+        String staticPath = getStaticPath(path);
+        return getClass().getResourceAsStream(staticPath);
     }
 
-    private String getModifiedPath(String path) {
-        if (path.contains(FILE_EXTENSION_MARKER)) {
-            return STATIC_DIRECTORY + path;
-        }
-        return STATIC_DIRECTORY + path + DEFAULT_FILE;
+    private String getStaticPath(String path) {
+        return STATIC_DIRECTORY + path;
     }
 
 }
