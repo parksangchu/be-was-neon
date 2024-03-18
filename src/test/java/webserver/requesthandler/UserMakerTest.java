@@ -20,7 +20,7 @@ class UserMakerTest {
         HttpRequest request = new HttpRequest();
         request.setParams(params);
 
-        UserMaker userMaker = new UserMaker();
+        RegistrationHandler userMaker = new RegistrationHandler();
         userMaker.handle(request, new HttpResponse());
 
         User user = Database.findUserById("sangchu");
