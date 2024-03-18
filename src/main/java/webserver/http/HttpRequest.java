@@ -7,6 +7,7 @@ import java.io.InputStreamReader;
 import java.net.HttpCookie;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -42,14 +43,16 @@ public class HttpRequest {
 
 
     public HttpCookie getCookie(String cookieName) {
-        String[] cookieParts = headers.get("Cookie").split(";\\s");
-        for (String cookiePart : cookieParts) {
-            HttpCookie cookie = HttpCookie.parse(cookiePart).get(0);
-            if (cookie.getName().equals(cookieName)) {
-                return cookie;
-            }
+        String cookieValues = headers.get("Cookie");
+        if (cookieValues == null) {
+            return null;
         }
-        return null;
+        String[] cookieParts = cookieValues.split(";\\s");
+        return Arrays.stream(cookieParts)
+                .map(cookiePart -> HttpCookie.parse(cookiePart).get(0))
+                .filter(cookie -> cookie.getName().equals(cookieName))
+                .findFirst()
+                .orElse(null);
     }
 
     public boolean isGET() {
@@ -94,6 +97,10 @@ public class HttpRequest {
 
     public void setPath(String path) {
         this.path = path;
+    }
+
+    public void setHeaders(Map<String, String> headers) {
+        this.headers = headers;
     }
 
     private String[] extractRequestLineParts(BufferedReader br) throws IOException {
