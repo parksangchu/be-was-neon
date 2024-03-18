@@ -33,7 +33,7 @@ public class MainRequestHandler implements Runnable {
     private Map<String, RequestHandler> initRequestHandlers() {
         Map<String, RequestHandler> requestHandlers = new HashMap<>();
         requestHandlers.put(HOME_URL, new HomeHandler());
-        requestHandlers.put(CREATE_URL, new UserMaker());
+        requestHandlers.put(CREATE_URL, new RegistrationHandler());
         requestHandlers.put(CERTIFICATION_URL, new LoginHandler());
         requestHandlers.put(LOGOUT_URL, new LogoutHandler());
         return requestHandlers;

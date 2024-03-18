@@ -9,8 +9,8 @@ import org.slf4j.LoggerFactory;
 import webserver.http.HttpRequest;
 import webserver.http.HttpResponse;
 
-public class UserMaker implements RequestHandler {
-    private static final Logger logger = LoggerFactory.getLogger(UserMaker.class);
+public class RegistrationHandler implements RequestHandler {
+    private static final Logger logger = LoggerFactory.getLogger(RegistrationHandler.class);
 
     @Override
     public void handle(HttpRequest request, HttpResponse response) {
