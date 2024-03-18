@@ -5,6 +5,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import db.Database;
 import java.util.Map;
 import model.User;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import webserver.http.HttpRequest;
@@ -29,5 +30,10 @@ class RegistrationTest {
         assertThat(user.getPassword()).isEqualTo("password");
         assertThat(user.getName()).isEqualTo("상추");
         assertThat(user.getEmail()).isEqualTo("sangchu@gmail.com");
+    }
+
+    @AfterEach
+    void tearDown() {
+        Database.clear();
     }
 }
