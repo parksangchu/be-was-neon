@@ -16,7 +16,7 @@ public class SessionManager {
         sessions.put(sessionId, object);
 
         HttpCookie cookie = new HttpCookie(SESSION_COOKIE_NAME, sessionId);
-        cookie.setMaxAge(60);
+        cookie.setMaxAge(1800); // 만료 시간 30분
         response.setCookie(cookie);
     }
 
