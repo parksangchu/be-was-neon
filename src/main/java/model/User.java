@@ -1,8 +1,5 @@
 package model;
 
-import java.net.URLDecoder;
-import java.nio.charset.StandardCharsets;
-
 public class User {
     private String userId;
     private String password;
@@ -12,8 +9,8 @@ public class User {
     public User(String userId, String password, String name, String email) {
         this.userId = userId;
         this.password = password;
-        this.name = URLDecoder.decode(name, StandardCharsets.UTF_8);
-        this.email = URLDecoder.decode(email, StandardCharsets.UTF_8);
+        this.name = name;
+        this.email = email;
     }
 
     public boolean hasSamePassword(String password) {
