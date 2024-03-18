@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.StringJoiner;
 
 public class HttpResponse {
+    public static final String HTTP_VERSION = "HTTP/1.1 ";
     private final OutputStream out;
     private HttpStatus status;
     private final Map<String, String> headers;
@@ -30,7 +31,7 @@ public class HttpResponse {
 
     public void send() throws IOException {
         DataOutputStream dos = new DataOutputStream(out);
-        dos.writeBytes("HTTP/1.1 " + status.getValue() + " " + status.getReasonPhrase() + "\r\n");
+        dos.writeBytes(HTTP_VERSION + status.getValue() + " " + status.getReasonPhrase() + "\r\n");
         for (String name : headers.keySet()) {
             dos.writeBytes(name + ": " + headers.get(name) + "\r\n");
         }
@@ -49,6 +50,10 @@ public class HttpResponse {
     public void setRedirect(String url) {
         setHeader("Location", url);
         setStatus(HttpStatus.FOUND);
+    }
+
+    public void setNotFound() {
+        setStatus(HttpStatus.NOT_FOUND);
     }
 
     public void setHeader(String name, String value) {

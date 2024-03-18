@@ -1,30 +1,25 @@
 package webserver.requesthandler;
 
-import static webserver.requesthandler.StaticResourceFinder.DEFAULT_FILE;
-import static webserver.requesthandler.StaticResourceFinder.STATIC_DIRECTORY;
-
 import java.io.IOException;
-import java.util.Objects;
 import model.User;
-import webserver.http.ContentType;
 import webserver.http.HttpRequest;
 import webserver.http.HttpResponse;
 import webserver.session.SessionManager;
 
 public class HomeHandler implements RequestHandler {
+
     @Override
-    public void handle(HttpRequest request, HttpResponse response) throws IOException {
+    public void handleGet(HttpRequest request, HttpResponse response) throws IOException {
         User user = (User) SessionManager.findSession(request);
-        if (user == null) {
-            setDefaultHome(response);
+        if (user == null) { // 로그인 안된 사용자
+            setHTMLToBody(response, URLConst.HOME_URL);
             return;
         }
-        response.setRedirect("/main");
+        setHTMLToBody(response, URLConst.LOGGED_IN_USER_HOME_URL);
     }
 
-    private void setDefaultHome(HttpResponse response) throws IOException {
-        byte[] body = Objects.requireNonNull(getClass().getResourceAsStream(STATIC_DIRECTORY + DEFAULT_FILE))
-                .readAllBytes();
-        response.setBody(body, ContentType.HTML);
+    @Override
+    public void handlePost(HttpRequest request, HttpResponse response) {
+        response.setNotFound();
     }
 }

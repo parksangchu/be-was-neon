@@ -16,12 +16,12 @@ class UserMakerTest {
     @DisplayName("쿼리파라미터로 받은 정보로 회원을 생성하고 DB에 저장할 수 있다.")
     void createUser() {
         Map<String, String> params = Map.of("userId", "sangchu", "password", "password", "name", "상추", "email",
-                "sangchu%40gmail.com");
+                "sangchu@gmail.com");
         HttpRequest request = new HttpRequest();
         request.setParams(params);
 
         RegistrationHandler userMaker = new RegistrationHandler();
-        userMaker.handle(request, new HttpResponse());
+        userMaker.handlePost(request, new HttpResponse());
 
         User user = Database.findUserById("sangchu");
 

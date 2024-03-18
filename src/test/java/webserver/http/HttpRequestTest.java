@@ -49,9 +49,9 @@ class HttpRequestTest {
     @Test
     @DisplayName("Request Line 정보를 추출할 수 있다.")
     void getLine() {
-        Map<String, String> params = Map.of("userId", "sangchu", "password", "123123", "name", "%EC%83%81%EC%B6%94",
+        Map<String, String> params = Map.of("userId", "sangchu", "password", "123123", "name", "상추",
                 "email",
-                "sangchu%40gmail.com");
+                "sangchu@gmail.com");
         assertThat(httpRequest.getMethod()).isEqualTo("GET");
         assertThat(httpRequest.getPath()).isEqualTo("/create");
         assertThat(httpRequest.getParams()).isEqualTo(params);
