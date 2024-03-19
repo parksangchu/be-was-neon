@@ -37,7 +37,7 @@ public class Authenticator {
         if (isLoginCheckPath(requestPath)) { // 로그인이 필요한 경로인지 검사
             boolean isLoggedIn = isLoggedIn(request);
             if (!isLoggedIn) { // 로그인이 안되어 있으면 로그인 화면으로 리다이렉트
-                setRedirectURL(response, requestPath);
+                response.sendRedirect(LOGIN_URL + "?redirectURL=" + requestPath);
                 return false;
             }
         }
@@ -59,10 +59,5 @@ public class Authenticator {
 
     private boolean isMatched(String mappedURL, String requestPath) {
         return requestPath.matches(mappedURL);
-    }
-
-    private void setRedirectURL(HttpResponse response, String requestPath) throws IOException {
-        // 사용자가 요청한 경로를 쿼리 파라미터로 담고 로그인 화면으로 리다이렉트
-        response.sendRedirect(LOGIN_URL + "?redirectURL=" + requestPath);
     }
 }
