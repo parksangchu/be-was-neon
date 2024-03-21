@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link href="../../css/reset.css" rel="stylesheet"/>
+    <link href="../../css/global.css" rel="stylesheet"/>
+    <style>
+        .error-message {
+            color: red;
+            margin-bottom: 0px; /* 로그인 버튼과의 간격 조정 */
+            text-align: center; /* 메시지를 중앙 정렬 */
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <header class="header">
+        <a href="/"><img src="../../img/signiture.svg"/></a>
+        <ul class="header__menu">
+            <li class="header__menu__item">
+                <a class="btn btn_contained btn_size_s" href="/login">로그인</a>
+            </li>
+            <li class="header__menu__item">
+                <a class="btn btn_ghost btn_size_s" href="/registration">
+                    회원 가입
+                </a>
+            </li>
+        </ul>
+    </header>
+    <div class="page">
+        <h2 class="page-title">로그인</h2>
+        <form class="form" action method="post">
+            <div class="textfield textfield_size_s">
+                <p class="title_textfield">아이디</p>
+                <input
+                        name="userId"
+                        class="input_textfield"
+                        placeholder="아이디를 입력해주세요"
+                        autocomplete="username"
+                />
+            </div>
+            <div class="textfield textfield_size_s">
+                <p class="title_textfield">비밀번호</p>
+                <input
+                        name="password"
+                        class="input_textfield"
+                        type="password"
+                        placeholder="비밀번호를 입력해주세요"
+                        autocomplete="current-password"
+                />
+            </div>
+            <p class="error-message">아이디나 비밀번호가 일치하지 않습니다.</p>
+            <button
+                    id="login-btn"
+                    class="btn btn_contained btn_size_m"
+                    style="margin-top: 0px"
+                    type="submit"
+            >
+                로그인
+            </button>
+        </form>
+    </div>
+</div>
+</body>
+</html>

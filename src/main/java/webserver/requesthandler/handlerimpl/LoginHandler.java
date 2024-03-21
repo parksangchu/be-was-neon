@@ -19,25 +19,30 @@ public class LoginHandler implements RequestHandler {
     }
 
     @Override
-    public void handlePost(HttpRequest request, HttpResponse response) {
+    public void handlePost(HttpRequest request, HttpResponse response) throws IOException {
         String userId = request.getParameter("userId");
         String password = request.getParameter("password");
 
         User findUser = Database.findUserById(userId);
         if (findUser == null) { // 일치하는 Id가 없을 경우
-            response.setRedirect(URLConst.LOGIN_URL);
+            this.setFailedView(response);
             return;
         }
         if (!findUser.hasSamePassword(password)) { // 일치하는 Id는 있으나 비밀번호가 다를 경우
-            response.setRedirect(URLConst.LOGIN_URL);
+            this.setFailedView(response);
             return;
         }
         SessionManager.createSession(findUser, response);
         String redirectURL = request.getParameter("redirectURL");
 
-        setRedirectURL(response, redirectURL);
+        this.setRedirectURL(response, redirectURL);
         logger.debug("{} 님이 로그인 하셨습니다.", userId);
     }
+
+    private void setFailedView(HttpResponse response) throws IOException {
+        setHTMLToBody(response, URLConst.LOGIN_URL + "/fail");
+    }
+
 
     private void setRedirectURL(HttpResponse response, String redirectURL) {
         if (redirectURL == null) { // 널이면 홈화면으로, 요청 경로가 있다면 해당 경로로 리다이렉트
