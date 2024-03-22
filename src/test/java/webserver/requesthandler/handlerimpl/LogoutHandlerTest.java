@@ -28,7 +28,7 @@ class LogoutHandlerTest {
         response = new HttpResponse();
 
         User user = new User("sangchu", "123", "상추", "sangchu@gmail.com");
-        SessionManager.createSessionBySID(user, response, "123456");
+        SessionManager.createSession(user, response, "123456");
     }
 
     @Test

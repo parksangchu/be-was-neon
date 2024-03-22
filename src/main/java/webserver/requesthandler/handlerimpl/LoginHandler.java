@@ -2,6 +2,7 @@ package webserver.requesthandler.handlerimpl;
 
 import db.Database;
 import java.io.IOException;
+import java.util.UUID;
 import model.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,7 +33,8 @@ public class LoginHandler implements RequestHandler {
             this.setFailedView(response);
             return;
         }
-        SessionManager.createSession(findUser, response);
+        String SID = UUID.randomUUID().toString();
+        SessionManager.createSession(findUser, response, SID);
         String redirectURL = request.getParameter("redirectURL");
 
         this.setRedirectURL(response, redirectURL);

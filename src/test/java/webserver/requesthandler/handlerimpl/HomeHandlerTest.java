@@ -41,7 +41,7 @@ class HomeHandlerTest {
     @Test
     @DisplayName("로그인 정보가 있는 상태에서 홈화면에 접근하면 로그인 상태의 화면이 나온다.")
     void accessLoggedInHome() throws IOException {
-        SessionManager.createSessionBySID(
+        SessionManager.createSession(
                 new User("sangchu", "123", "상추", "sangchu@gmail.com")
                 , response, "123456");
         Map<String, String> headers = new HashMap<>();

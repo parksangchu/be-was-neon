@@ -50,7 +50,7 @@ class AuthenticatorTest {
         request.setURL(path);
         request.setHeaders(headers);
 
-        SessionManager.createSessionBySID(new User("sangchu", "123", "상추", "didi1484@gmail.com"), response, "123456");
+        SessionManager.createSession(new User("sangchu", "123", "상추", "didi1484@gmail.com"), response, "123456");
 
         boolean isAuthenticated = authenticator.isAuthenticated(request, response);
         String redirectURL = response.getHeader("Location");

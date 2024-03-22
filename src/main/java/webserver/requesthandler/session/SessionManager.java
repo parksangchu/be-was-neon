@@ -2,7 +2,6 @@ package webserver.requesthandler.session;
 
 import java.net.HttpCookie;
 import java.util.Map;
-import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import webserver.requesthandler.http.HttpRequest;
 import webserver.requesthandler.http.HttpResponse;
@@ -12,19 +11,10 @@ public class SessionManager {
     public static final int EXPIRATION_PERIOD = 1800;
     private static final Map<String, Object> sessions = new ConcurrentHashMap<>();
 
-    public static void createSession(Object object, HttpResponse response) {
-        String sessionId = UUID.randomUUID().toString();
-        sessions.put(sessionId, object);
-
-        HttpCookie cookie = new HttpCookie(SESSION_COOKIE_NAME, sessionId);
+    public static void createSession(Object object, HttpResponse response, String SID) {
+        sessions.put(SID, object);
+        HttpCookie cookie = new HttpCookie(SESSION_COOKIE_NAME, SID);
         cookie.setMaxAge(EXPIRATION_PERIOD); // 만료 시간 30분
-        response.addCookie(cookie);
-    }
-
-    public static void createSessionBySID(Object object, HttpResponse response, String sid) {
-        sessions.put(sid, object);
-
-        HttpCookie cookie = new HttpCookie(SESSION_COOKIE_NAME, sid);
         response.addCookie(cookie);
     }
 
