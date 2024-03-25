@@ -13,18 +13,21 @@ public class LogoutHandler implements RequestHandler {
     private static final Logger logger = LoggerFactory.getLogger(LogoutHandler.class);
 
     @Override
-    public void handleGet(HttpRequest request, HttpResponse response) {
+    public String handleGet(HttpRequest request, HttpResponse response) {
         User user = (User) SessionManager.findSession(request);
 
         if (user != null) {
             SessionManager.expire(request);
             logger.debug("{} 님이 로그아웃 하셨습니다.", user.getUserId());
             response.setRedirect(URLConst.HOME_URL);
+            return null;
         }
+        return null;
     }
 
     @Override
-    public void handlePost(HttpRequest request, HttpResponse response) {
+    public String handlePost(HttpRequest request, HttpResponse response) {
         response.setStatus(HttpStatus.NOT_FOUND); // 잘못된 요청
+        return null;
     }
 }

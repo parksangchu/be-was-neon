@@ -2,6 +2,7 @@ package webserver.requesthandler.http;
 
 import java.net.HttpCookie;
 import java.util.Map;
+import webserver.requesthandler.http.attribute.Attributes;
 import webserver.requesthandler.http.message.Body;
 import webserver.requesthandler.http.message.Headers;
 import webserver.requesthandler.http.message.Parameters;
@@ -12,12 +13,14 @@ public class HttpRequest {
     private Headers headers;
     private Body body;
     private Parameters parameters;
+    private Attributes attributes;
 
     public HttpRequest(RequestLine requestLine, Headers headers, Body body, Parameters parameters) {
         this.requestLine = requestLine;
         this.headers = headers;
         this.body = body;
         this.parameters = parameters;
+        this.attributes = new Attributes();
     }
 
     public HttpRequest() {
@@ -25,6 +28,7 @@ public class HttpRequest {
         headers = new Headers();
         body = new Body();
         parameters = new Parameters();
+        attributes = new Attributes();
     }
 
 
@@ -34,6 +38,10 @@ public class HttpRequest {
 
     public boolean isPOST() {
         return requestLine.isPOST();
+    }
+
+    public boolean hasAttribute() {
+        return !attributes.isEmpty();
     }
 
     public HttpCookie getCookie(String cookieName) {
@@ -64,6 +72,14 @@ public class HttpRequest {
         return body.getStringContent();
     }
 
+    public Attributes getAttributes() {
+        return attributes;
+    }
+
+    public Object getAttribute(String name) {
+        return attributes.get(name);
+    }
+
     public void setURL(String URL) {
         requestLine.setURL(URL);
     }
@@ -82,5 +98,9 @@ public class HttpRequest {
 
     public void setParameters(Map<String, String> parameters) {
         this.parameters = new Parameters(parameters);
+    }
+
+    public void setAttribute(String name, Object object) {
+        attributes.add(name, object);
     }
 }

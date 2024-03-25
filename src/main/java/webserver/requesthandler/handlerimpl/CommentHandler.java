@@ -7,12 +7,13 @@ import webserver.requesthandler.http.HttpResponse;
 
 public class CommentHandler implements RequestHandler {
     @Override
-    public void handleGet(HttpRequest request, HttpResponse response) throws IOException {
-        setHTMLToBody(response, URLConst.COMMENT_URL);
+    public String handleGet(HttpRequest request, HttpResponse response) throws IOException {
+        return URLConst.COMMENT_URL;
     }
 
     @Override
-    public void handlePost(HttpRequest request, HttpResponse response) {
+    public String handlePost(HttpRequest request, HttpResponse response) {
         response.setNotFound();
+        return null;
     }
 }

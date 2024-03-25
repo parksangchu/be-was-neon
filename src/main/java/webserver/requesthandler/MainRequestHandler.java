@@ -14,6 +14,7 @@ import webserver.requesthandler.http.HttpRequest;
 import webserver.requesthandler.http.HttpRequestParser;
 import webserver.requesthandler.http.HttpResponse;
 import webserver.requesthandler.http.HttpResponseWriter;
+import webserver.requesthandler.viewresolver.ViewResolver;
 
 public class MainRequestHandler implements Runnable {
     private static final Logger logger = LoggerFactory.getLogger(MainRequestHandler.class);
@@ -45,10 +46,15 @@ public class MainRequestHandler implements Runnable {
             }
 
             RequestHandler requestHandler = requestHandlerMapper.findRequestHandler(request); // 매핑정보와 일치하는 서브핸들러 찾기
-            requestHandler.handle(request, response);
+            String viewPath = requestHandler.handle(request, response);
+
+            if (viewPath != null) {
+                ViewResolver viewResolver = new ViewResolver();
+                viewResolver.setView(viewPath, request, response);
+            }
 
             httpResponseWriter.send(response);
-        } catch (IOException e) {
+        } catch (IOException | IllegalAccessException e) {
             logger.error(e.getMessage());
         }
     }

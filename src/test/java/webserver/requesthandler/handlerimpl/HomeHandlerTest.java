@@ -5,7 +5,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 import model.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -33,9 +32,8 @@ class HomeHandlerTest {
         Map<String, String> headers = new HashMap<>();
         request.setHeaders(headers);
 
-        requestHandler.handleGet(request, response); // 로그인 정보가 없는 상태에서 홈화면에 접근
-        byte[] body = response.getBody();
-        assertThat(body).isEqualTo(getExpected("/"));
+        String viewPath = requestHandler.handleGet(request, response);// 로그인 정보가 없는 상태에서 홈화면에 접근
+        assertThat(viewPath).isEqualTo("/");
     }
 
     @Test
@@ -49,12 +47,7 @@ class HomeHandlerTest {
 
         request.setHeaders(headers);
 
-        requestHandler.handleGet(request, response); // 로그인 정보가 없는 상태에서 홈화면에 접근
-        byte[] body = response.getBody();
-        assertThat(new String(body)).contains("sangchu", "로그아웃", "글쓰기");
-    }
-
-    private byte[] getExpected(String path) throws IOException {
-        return Objects.requireNonNull(getClass().getResourceAsStream("/static" + path + "/index.html")).readAllBytes();
+        String viewPath = requestHandler.handleGet(request, response);// 로그인 정보가 없는 상태에서 홈화면에 접근
+        assertThat(viewPath).isEqualTo("/main");
     }
 }

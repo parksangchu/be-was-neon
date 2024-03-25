@@ -3,7 +3,6 @@ package webserver.requesthandler.handlerimpl;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.IOException;
-import java.util.Objects;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -24,17 +23,15 @@ class StaticResourceHandlerTest {
     }
 
     @Test
-    @DisplayName("요청된 경로와 일치하는 정적 리소스가 있으면 해당 리소스를 읽고 저장한다.")
+    @DisplayName("요청된 경로와 일치하는 정적 리소스가 있으면 해당 리소스의 경로를 반환한다.")
     void findStaticResource() throws IOException {
         String requestPath = "/img/like.svg";
         request.setURL(requestPath);
-        staticResourceHandler.handleGet(request, response);
+        String viewPath = staticResourceHandler.handleGet(request, response);
         HttpStatus status = response.getStatus();
-        byte[] body = response.getBody();
+
+        assertThat(viewPath).isEqualTo(requestPath);
         assertThat(status).isEqualTo(HttpStatus.OK);
-        assertThat(body).isEqualTo(
-                Objects.requireNonNull(getClass().getResourceAsStream("/static" + requestPath))
-                        .readAllBytes());
     }
 
     @Test
@@ -45,5 +42,4 @@ class StaticResourceHandlerTest {
         HttpStatus status = response.getStatus();
         assertThat(status).isEqualTo(HttpStatus.NOT_FOUND);
     }
-
 }

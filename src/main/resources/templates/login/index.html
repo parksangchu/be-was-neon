@@ -3,20 +3,13 @@
 <head>
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <link href="../../css/reset.css" rel="stylesheet"/>
-    <link href="../../css/global.css" rel="stylesheet"/>
-    <style>
-        .error-message {
-            color: red;
-            margin-bottom: 0px; /* 로그인 버튼과의 간격 조정 */
-            text-align: center; /* 메시지를 중앙 정렬 */
-        }
-    </style>
+    <link href="../../static/css/reset.css" rel="stylesheet"/>
+    <link href="../../static/css/global.css" rel="stylesheet"/>
 </head>
 <body>
 <div class="container">
     <header class="header">
-        <a href="/"><img src="../../img/signiture.svg"/></a>
+        <a href="/"><img src="../../static/img/signiture.svg"/></a>
         <ul class="header__menu">
             <li class="header__menu__item">
                 <a class="btn btn_contained btn_size_s" href="/login">로그인</a>
@@ -50,11 +43,10 @@
                         autocomplete="current-password"
                 />
             </div>
-            <p class="error-message">아이디나 비밀번호가 일치하지 않습니다.</p>
             <button
                     id="login-btn"
                     class="btn btn_contained btn_size_m"
-                    style="margin-top: 0px"
+                    style="margin-top: 24px"
                     type="submit"
             >
                 로그인

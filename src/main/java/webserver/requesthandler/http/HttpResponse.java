@@ -60,6 +60,12 @@ public class HttpResponse {
         setContentLength(body.length);
     }
 
+    public void setHtmlBody(byte[] body) {
+        this.body.setContent(body);
+        setContentType(ContentType.HTML);
+        setContentLength(body.length);
+    }
+
     public void addCookie(HttpCookie cookie) {
         StringJoiner sj = new StringJoiner(HttpConst.COOKIE_VALUE_DELIMITER);
         sj.add(cookie.getName() + HttpConst.PARAM_DELIMITER + cookie.getValue());

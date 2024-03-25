@@ -7,12 +7,13 @@ import webserver.requesthandler.http.HttpResponse;
 
 public class ArticleHandler implements RequestHandler {
     @Override
-    public void handleGet(HttpRequest request, HttpResponse response) throws IOException {
-        setHTMLToBody(response, URLConst.ARTICLE_URL);
+    public String handleGet(HttpRequest request, HttpResponse response) throws IOException {
+        return URLConst.ARTICLE_URL;
     }
 
     @Override
-    public void handlePost(HttpRequest request, HttpResponse response) {
+    public String handlePost(HttpRequest request, HttpResponse response) {
         response.setNotFound();
+        return null;
     }
 }
