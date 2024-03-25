@@ -19,7 +19,6 @@ public class UserListHandler implements RequestHandler {
 
     @Override
     public String handlePost(HttpRequest request, HttpResponse response) throws IOException {
-        response.setNotFound();
         return null;
     }
 }

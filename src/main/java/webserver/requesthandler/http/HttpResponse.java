@@ -85,6 +85,10 @@ public class HttpResponse {
         headers.put(HttpConst.HEADER_SET_COOKIE, modified);
     }
 
+    public boolean hasEmptyBody() {
+        return body.isEmpty();
+    }
+
     private void setContentType(ContentType contentType) {
         headers.put(HttpConst.HEADER_CONTENT_TYPE, contentType.getMimeType());
     }

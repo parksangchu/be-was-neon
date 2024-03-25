@@ -21,8 +21,6 @@ public class HomeHandler implements RequestHandler {
 
     @Override
     public String handlePost(HttpRequest request, HttpResponse response) {
-        response.setNotFound();
         return null;
     }
-
 }

@@ -13,7 +13,6 @@ public class ArticleHandler implements RequestHandler {
 
     @Override
     public String handlePost(HttpRequest request, HttpResponse response) {
-        response.setNotFound();
         return null;
     }
 }

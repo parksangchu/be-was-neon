@@ -6,7 +6,6 @@ import org.slf4j.LoggerFactory;
 import webserver.requesthandler.URLConst;
 import webserver.requesthandler.http.HttpRequest;
 import webserver.requesthandler.http.HttpResponse;
-import webserver.requesthandler.http.HttpStatus;
 import webserver.requesthandler.session.SessionManager;
 
 public class LogoutHandler implements RequestHandler {
@@ -19,15 +18,13 @@ public class LogoutHandler implements RequestHandler {
         if (user != null) {
             SessionManager.expire(request);
             logger.debug("{} 님이 로그아웃 하셨습니다.", user.getUserId());
-            response.setRedirect(URLConst.HOME_URL);
-            return null;
+            return "redirect:" + URLConst.HOME_URL;
         }
         return null;
     }
 
     @Override
     public String handlePost(HttpRequest request, HttpResponse response) {
-        response.setStatus(HttpStatus.NOT_FOUND); // 잘못된 요청
         return null;
     }
 }

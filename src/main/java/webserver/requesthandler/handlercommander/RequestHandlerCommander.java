@@ -14,6 +14,6 @@ public class RequestHandlerCommander {
         if (request.isPOST()) {
             return requestHandler.handlePost(request, response);
         }
-        throw new IllegalArgumentException("잘못된 접근입니다.");
+        throw new IllegalArgumentException("지원하는 http 메소드가 아닙니다.");
     }
 }

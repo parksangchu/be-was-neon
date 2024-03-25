@@ -3,7 +3,7 @@ package webserver.requesthandler.authenticator;
 import static webserver.requesthandler.URLConst.HOME_URL;
 import static webserver.requesthandler.URLConst.LOGIN_URL;
 import static webserver.requesthandler.URLConst.REGISTRATION_URL;
-import static webserver.requesthandler.URLConst.STATIC_RESOURCE_URL;
+import static webserver.requesthandler.URLConst.STATIC_RESOURCE_URL_PATTERN;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -16,7 +16,7 @@ public class UnauthenticatedURLs {
         store.add(HOME_URL);
         store.add(LOGIN_URL);
         store.add(REGISTRATION_URL);
-        store.add(STATIC_RESOURCE_URL);
+        store.add(STATIC_RESOURCE_URL_PATTERN);
     }
 
     public boolean isLoginCheckPath(String requestPath) {

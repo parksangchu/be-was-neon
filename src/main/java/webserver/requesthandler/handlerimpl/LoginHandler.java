@@ -2,6 +2,7 @@ package webserver.requesthandler.handlerimpl;
 
 import db.Database;
 import java.io.IOException;
+import java.util.Objects;
 import model.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,18 +32,15 @@ public class LoginHandler implements RequestHandler {
 
         String SID = SIDMaker.makeSID();
         SessionManager.createSession(findUser, response, SID);
-        String redirectURL = request.getParameter("redirectURL");
+        String redirectURL = getRedirectURL(request);
 
-        this.setRedirectURL(response, redirectURL);
         logger.debug("{} 님이 로그인 하셨습니다.", userId);
-        return null;
+        return "redirect:" + redirectURL;
     }
 
-    private void setRedirectURL(HttpResponse response, String redirectURL) {
-        if (redirectURL == null) { // 널이면 홈화면으로, 요청 경로가 있다면 해당 경로로 리다이렉트
-            response.setRedirect(URLConst.HOME_URL);
-            return;
-        }
-        response.setRedirect(redirectURL);
+    private String getRedirectURL(HttpRequest request) {
+        String redirectURL = request.getParameter("redirectURL");
+        // 널이면 홈화면으로, 요청 경로가 있다면 해당 경로로 리다이렉트
+        return Objects.requireNonNullElse(redirectURL, URLConst.HOME_URL);
     }
 }

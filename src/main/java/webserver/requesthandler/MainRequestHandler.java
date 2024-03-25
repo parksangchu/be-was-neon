@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import webserver.requesthandler.authenticator.Authenticator;
 import webserver.requesthandler.authenticator.UnauthenticatedURLs;
+import webserver.requesthandler.bodysetter.ResponseBodySetter;
 import webserver.requesthandler.handlercommander.RequestHandlerCommander;
 import webserver.requesthandler.handlerimpl.RequestHandler;
 import webserver.requesthandler.handlermapper.RequestHandlerMapper;
@@ -15,7 +16,6 @@ import webserver.requesthandler.http.HttpRequest;
 import webserver.requesthandler.http.HttpRequestParser;
 import webserver.requesthandler.http.HttpResponse;
 import webserver.requesthandler.http.HttpResponseWriter;
-import webserver.requesthandler.viewresolver.ViewResolver;
 
 public class MainRequestHandler implements Runnable {
     private static final Logger logger = LoggerFactory.getLogger(MainRequestHandler.class);
@@ -46,14 +46,13 @@ public class MainRequestHandler implements Runnable {
             }
 
             RequestHandler requestHandler = RequestHandlerMapper.findRequestHandler(request); // 매핑정보와 일치하는 서브핸들러 찾기
-            String viewPath = RequestHandlerCommander.execute(requestHandler, request, response); // 메서드에 따라 동작 실행
+            String viewPath = RequestHandlerCommander.execute(requestHandler, request,
+                    response); // 메서드에 따라 동작 실행하여 사용자에게 보여줄 뷰 경로 반환
 
-            if (viewPath != null) {
-                ViewResolver.setView(viewPath, request, response);
-            }
-
+            ResponseBodySetter.setBody(request, response, viewPath); // 뷰 경로에 따라 responseBody 설정
             responseWriter.send(response);
-        } catch (IOException | IllegalAccessException e) {
+
+        } catch (IOException | IllegalArgumentException e) {
             logger.error(e.getMessage());
         }
     }

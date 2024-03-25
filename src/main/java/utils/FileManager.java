@@ -1,6 +1,7 @@
 package utils;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Objects;
 
 public class FileManager {
@@ -26,8 +27,11 @@ public class FileManager {
     }
 
     public static byte[] getStaticResource(String requestPath) throws IOException {
-        return Objects.requireNonNull(FileManager.class.getResourceAsStream(requestPath))
-                .readAllBytes();
+        InputStream resourceAsStream = FileManager.class.getResourceAsStream(requestPath);
+        if (resourceAsStream == null) {
+            return null;
+        }
+        return resourceAsStream.readAllBytes();
     }
 
     public static byte[] getTemplate(String requestPath) throws IOException {

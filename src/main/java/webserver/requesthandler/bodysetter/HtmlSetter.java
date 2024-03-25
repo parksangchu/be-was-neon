@@ -1,4 +1,4 @@
-package webserver.requesthandler.viewresolver;
+package webserver.requesthandler.bodysetter;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
@@ -6,31 +6,15 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import utils.FileManager;
-import webserver.requesthandler.http.ContentType;
 import webserver.requesthandler.http.HttpRequest;
 import webserver.requesthandler.http.HttpResponse;
 
-public class ViewResolver {
+public class HtmlSetter {
 
     public static final Pattern MODEL_PATTERN = Pattern.compile("\\$\\{(.*?)}");
 
-    public static void setView(String viewPath, HttpRequest request, HttpResponse response)
-            throws IOException, IllegalAccessException {
-        if (FileManager.isFile(viewPath)) { // 파일일 경우 정적리소스 반환
-            setStaticResource(viewPath, response);
-            return;
-        }
-        setHtml(viewPath, request, response); // 아닐 경우 템플릿 폴더에서 html 찾아서 반환
-    }
-
-    private static void setStaticResource(String viewPath, HttpResponse response) throws IOException {
-        byte[] staticResource = FileManager.getStaticResource(viewPath);
-        String fileExtension = FileManager.getFileExtension(viewPath);
-        response.setBody(staticResource, ContentType.getContentTypeByExtension(fileExtension));
-    }
-
-    private static void setHtml(String viewPath, HttpRequest request, HttpResponse response)
-            throws IOException, IllegalAccessException {
+    public static void setView(HttpRequest request, HttpResponse response, String viewPath)
+            throws IOException {
         byte[] template = FileManager.getTemplate(viewPath);
         if (!request.hasAttribute()) {
             response.setHtmlBody(template); // 모델이 없다면 템플릿 그대로 저장
@@ -40,7 +24,7 @@ public class ViewResolver {
         response.setHtmlBody(modifiedHtml);
     }
 
-    private static byte[] getModifiedHtml(HttpRequest request, byte[] template) throws IllegalAccessException {
+    private static byte[] getModifiedHtml(HttpRequest request, byte[] template) {
         String htmlText = new String(template);
         Matcher matcher = MODEL_PATTERN.matcher(htmlText);
         while (matcher.find()) {
@@ -52,14 +36,14 @@ public class ViewResolver {
         return htmlText.getBytes();
     }
 
-    private static String getReplaceString(Object attribute) throws IllegalAccessException {
+    private static String getReplaceString(Object attribute) {
         if (attribute instanceof List<?> list) { // 모델이 리스트일 경우
             return generateHtmlForList(list);
         }
         return (String) attribute;
     }
 
-    private static String generateHtmlForList(List<?> list) throws IllegalAccessException {
+    private static String generateHtmlForList(List<?> list) {
         StringBuilder sb = new StringBuilder();
         for (Object o : list) { // 모델이 리스트일 경우 모든 요소들을 순회하여 추가한다
             sb.append("<tr>");
@@ -70,14 +54,18 @@ public class ViewResolver {
         return sb.toString();
     }
 
-    private static void appendFields(Object o, Field[] fields, StringBuilder sb) throws IllegalAccessException {
-        for (Field field : fields) {
-            if (!field.getName().equals("password")) { // 패스워드 공개 X
-                field.setAccessible(true);
-                Object fieldValue = field.get(o);
-                System.out.println(fieldValue);
-                sb.append("<td>").append(fieldValue).append("</td>");
+    private static void appendFields(Object o, Field[] fields, StringBuilder sb) {
+        try {
+            for (Field field : fields) {
+                if (!field.getName().equals("password")) { // 패스워드 공개 X
+                    field.setAccessible(true);
+                    Object fieldValue = field.get(o);
+                    sb.append("<td>").append(fieldValue).append("</td>");
+                }
             }
+        } catch (IllegalAccessException e) {
+            throw new IllegalArgumentException(e);
         }
+
     }
 }

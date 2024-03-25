@@ -24,7 +24,6 @@ public class RegistrationHandler implements RequestHandler {
                 request.getParameter("email"));
         Database.addUser(user);
         logger.debug("신규 유저가 생성되었습니다. {}", user);
-        response.setRedirect(URLConst.LOGIN_URL);
-        return null;
+        return "redirect:" + URLConst.LOGIN_URL;
     }
 }

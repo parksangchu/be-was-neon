@@ -10,8 +10,12 @@ public class StaticResourceHandler implements RequestHandler {
     @Override
     public String handleGet(HttpRequest request, HttpResponse response) throws IOException {
         String requestURL = request.getURL();
+        if (!requestURL.startsWith("/static")) {
+            response.setNotFound();
+            return null;
+        }
         if (!FileManager.isFile(requestURL)) {
-            response.setNotFound(); // 파일이 아닐 경우 404 응답
+            response.setNotFound();
             return null;
         }
         return requestURL;
@@ -19,7 +23,6 @@ public class StaticResourceHandler implements RequestHandler {
 
     @Override
     public String handlePost(HttpRequest request, HttpResponse response) throws IOException {
-        response.setNotFound();
         return null;
     }
 }
