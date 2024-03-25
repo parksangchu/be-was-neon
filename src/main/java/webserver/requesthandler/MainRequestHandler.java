@@ -15,7 +15,7 @@ import webserver.requesthandler.handlermapper.RequestHandlerMapper;
 import webserver.requesthandler.http.HttpRequest;
 import webserver.requesthandler.http.HttpRequestParser;
 import webserver.requesthandler.http.HttpResponse;
-import webserver.requesthandler.http.HttpResponseWriter;
+import webserver.requesthandler.responewriter.HttpResponseWriter;
 
 public class MainRequestHandler implements Runnable {
     private static final Logger logger = LoggerFactory.getLogger(MainRequestHandler.class);

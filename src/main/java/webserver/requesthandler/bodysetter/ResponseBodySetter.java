@@ -1,6 +1,7 @@
 package webserver.requesthandler.bodysetter;
 
 import java.io.IOException;
+import utils.FileManager;
 import webserver.requesthandler.http.HttpRequest;
 import webserver.requesthandler.http.HttpResponse;
 
@@ -9,6 +10,8 @@ public class ResponseBodySetter {
             throws IOException {
         if (viewPath == null) {
             response.setNotFound();
+            byte[] body = FileManager.getTemplate("/error/404");
+            response.setHtmlBody(body);
             return;
         }
         if (viewPath.startsWith("/static")) {

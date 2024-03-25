@@ -8,10 +8,6 @@ import webserver.requesthandler.http.HttpResponse;
 public class StaticResourceSetter {
     public static void setStaticResource(HttpResponse response, String viewPath) throws IOException {
         byte[] staticResource = FileManager.getStaticResource(viewPath);
-        if (staticResource == null) {
-            response.setNotFound();
-            return;
-        }
         String fileExtension = FileManager.getFileExtension(viewPath);
         response.setBody(staticResource, ContentType.getContentTypeByExtension(fileExtension));
     }

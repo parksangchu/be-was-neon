@@ -22,4 +22,8 @@ public class Body {
     public void setContent(byte[] content) {
         this.content = content;
     }
+
+    public boolean isEmpty() {
+        return content.length == 0;
+    }
 }

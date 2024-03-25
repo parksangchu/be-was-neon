@@ -1,4 +1,4 @@
-package webserver.requesthandler.http;
+package webserver.requesthandler.responewriter;
 
 import static webserver.requesthandler.http.HttpConst.CRLF;
 
@@ -6,6 +6,8 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Map;
+import webserver.requesthandler.http.HttpConst;
+import webserver.requesthandler.http.HttpResponse;
 
 public class HttpResponseWriter {
     private final OutputStream out;

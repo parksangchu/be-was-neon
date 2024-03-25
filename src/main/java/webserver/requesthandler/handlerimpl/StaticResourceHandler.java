@@ -11,11 +11,12 @@ public class StaticResourceHandler implements RequestHandler {
     public String handleGet(HttpRequest request, HttpResponse response) throws IOException {
         String requestURL = request.getURL();
         if (!requestURL.startsWith("/static")) {
-            response.setNotFound();
             return null;
         }
         if (!FileManager.isFile(requestURL)) {
-            response.setNotFound();
+            return null;
+        }
+        if (FileManager.getStaticResource(requestURL) == null) {
             return null;
         }
         return requestURL;
