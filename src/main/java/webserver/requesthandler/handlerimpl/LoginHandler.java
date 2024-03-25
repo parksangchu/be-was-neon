@@ -1,6 +1,7 @@
 package webserver.requesthandler.handlerimpl;
 
-import db.Database;
+import db.user.UserDatabase;
+import db.user.UserMemoryDatabase;
 import java.io.IOException;
 import java.util.Objects;
 import model.User;
@@ -14,6 +15,7 @@ import webserver.requesthandler.session.SessionManager;
 
 public class LoginHandler implements RequestHandler {
     private static final Logger logger = LoggerFactory.getLogger(LoginHandler.class);
+    private final UserDatabase userDatabase = new UserMemoryDatabase();
 
     @Override
     public String handleGet(HttpRequest request, HttpResponse response) throws IOException {
@@ -25,7 +27,7 @@ public class LoginHandler implements RequestHandler {
         String userId = request.getParameter("userId");
         String password = request.getParameter("password");
 
-        User findUser = Database.findUserById(userId);
+        User findUser = userDatabase.findUserById(userId);
         if (findUser == null || !findUser.hasSamePassword(password)) { // 일치하는 Id가 없거나 비밀번호가 다를 경우
             return URLConst.LOGIN_URL + "/fail";
         }

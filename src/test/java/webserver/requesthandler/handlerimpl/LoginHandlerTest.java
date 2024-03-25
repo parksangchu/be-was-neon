@@ -2,7 +2,8 @@ package webserver.requesthandler.handlerimpl;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import db.Database;
+import db.user.UserDatabase;
+import db.user.UserMemoryDatabase;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -15,6 +16,7 @@ import webserver.requesthandler.http.HttpRequest;
 import webserver.requesthandler.http.HttpResponse;
 
 class LoginHandlerTest {
+    UserDatabase userDatabase = new UserMemoryDatabase();
     RequestHandler requestHandler;
     HttpRequest request;
     HttpResponse response;
@@ -26,7 +28,8 @@ class LoginHandlerTest {
         response = new HttpResponse();
 
         User user = new User("sangchu", "123", "상추", "sangchu@gmail.com");
-        Database.addUser(user);
+
+        userDatabase.addUser(user);
     }
 
     @Test
@@ -57,6 +60,6 @@ class LoginHandlerTest {
 
     @AfterEach
     void tearDown() {
-        Database.clear();
+        userDatabase.clear();
     }
 }

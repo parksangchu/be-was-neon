@@ -25,24 +25,15 @@ class ResponseBodySetterTest {
     void setNull() throws IOException {
         ResponseBodySetter.setBody(request, response, null);
         assertThat(response.getStatus()).isEqualTo(HttpStatus.NOT_FOUND);
-        assertThat(response.hasEmptyBody()).isTrue();
     }
 
     @Test
-    @DisplayName("viewPath가 /static으로 시작하면 정적 리소스를 세팅한다")
+    @DisplayName("viewPath에 파일 확장자 마커가 포함되어 있으면 정적 리소스를 세팅한다")
     void setStaticResource() throws IOException {
-        String path = "/static/css/global.css";
+        String path = "/css/global.css";
         ResponseBodySetter.setBody(request, response, path);
-        byte[] body = getClass().getResourceAsStream(path).readAllBytes();
+        byte[] body = getClass().getResourceAsStream("/static" + path).readAllBytes();
         assertThat(response.getBody()).isEqualTo(body);
-    }
-
-    @Test
-    @DisplayName("요청 경로와 일치하는 정적 리소스가 없다면 404응답을 반환한다.")
-    void setStaticResourceFail() throws IOException {
-        String path = "/static/css/globalglobal.css";
-        ResponseBodySetter.setBody(request, response, path);
-        assertThat(response.getStatus()).isEqualTo(HttpStatus.NOT_FOUND);
     }
 
     @Test

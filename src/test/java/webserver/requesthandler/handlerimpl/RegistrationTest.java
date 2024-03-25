@@ -2,7 +2,8 @@ package webserver.requesthandler.handlerimpl;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
-import db.Database;
+import db.user.UserDatabase;
+import db.user.UserMemoryDatabase;
 import java.util.Map;
 import model.User;
 import org.junit.jupiter.api.AfterEach;
@@ -12,6 +13,7 @@ import webserver.requesthandler.http.HttpRequest;
 import webserver.requesthandler.http.HttpResponse;
 
 class RegistrationTest {
+    UserDatabase userDatabase = new UserMemoryDatabase();
 
     @Test
     @DisplayName("파라미터로 받은 정보로 회원을 생성하고 DB에 저장할 수 있다.")
@@ -24,7 +26,7 @@ class RegistrationTest {
         RegistrationHandler registrationHandler = new RegistrationHandler();
         registrationHandler.handlePost(request, new HttpResponse());
 
-        User user = Database.findUserById("sangchu");
+        User user = userDatabase.findUserById("sangchu");
 
         assertThat(user.getUserId()).isEqualTo("sangchu");
         assertThat(user.getPassword()).isEqualTo("password");
@@ -34,6 +36,6 @@ class RegistrationTest {
 
     @AfterEach
     void tearDown() {
-        Database.clear();
+        userDatabase.clear();
     }
 }

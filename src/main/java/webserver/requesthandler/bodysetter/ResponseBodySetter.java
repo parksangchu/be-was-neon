@@ -14,7 +14,7 @@ public class ResponseBodySetter {
             response.setHtmlBody(body);
             return;
         }
-        if (viewPath.startsWith("/static")) {
+        if (FileManager.isFile(viewPath)) {
             StaticResourceSetter.setStaticResource(response, viewPath);
             return;
         }

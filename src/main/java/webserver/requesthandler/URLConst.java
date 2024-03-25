@@ -10,4 +10,6 @@ public interface URLConst {
     String COMMENT_URL = "/comment";
     String USER_LIST_URL = "/user/list";
     String STATIC_RESOURCE_URL_PATTERN = "/static/.*";
+    String FAVICON_ICO_URL = "/favicon.ico";
+
 }

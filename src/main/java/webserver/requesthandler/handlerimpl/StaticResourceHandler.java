@@ -10,9 +10,6 @@ public class StaticResourceHandler implements RequestHandler {
     @Override
     public String handleGet(HttpRequest request, HttpResponse response) throws IOException {
         String requestURL = request.getURL();
-        if (!requestURL.startsWith("/static")) {
-            return null;
-        }
         if (!FileManager.isFile(requestURL)) {
             return null;
         }

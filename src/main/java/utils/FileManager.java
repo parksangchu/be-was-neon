@@ -9,6 +9,7 @@ public class FileManager {
     public static final String FILE_SEPARATOR = "/";
     public static final String NO_FILE_EXTENSION = "";
     public static final String TEMPLATES_DIRECTORY = "/templates";
+    public static final String STATIC_DIRECTORY = "/static";
     public static final String INDEX_HTML_FILE = "/index.html";
 
     public static boolean isFile(String requestPath) {
@@ -27,7 +28,7 @@ public class FileManager {
     }
 
     public static byte[] getStaticResource(String requestPath) throws IOException {
-        InputStream resourceAsStream = FileManager.class.getResourceAsStream(requestPath);
+        InputStream resourceAsStream = FileManager.class.getResourceAsStream(STATIC_DIRECTORY + requestPath);
         if (resourceAsStream == null) {
             return null;
         }

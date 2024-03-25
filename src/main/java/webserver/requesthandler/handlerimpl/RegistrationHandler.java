@@ -1,6 +1,7 @@
 package webserver.requesthandler.handlerimpl;
 
-import db.Database;
+import db.user.UserDatabase;
+import db.user.UserMemoryDatabase;
 import java.io.IOException;
 import model.User;
 import org.slf4j.Logger;
@@ -11,6 +12,7 @@ import webserver.requesthandler.http.HttpResponse;
 
 public class RegistrationHandler implements RequestHandler {
     private static final Logger logger = LoggerFactory.getLogger(RegistrationHandler.class);
+    private final UserDatabase userDatabase = new UserMemoryDatabase();
 
     @Override
     public String handleGet(HttpRequest request, HttpResponse response) throws IOException {
@@ -22,7 +24,7 @@ public class RegistrationHandler implements RequestHandler {
         User user = new User(request.getParameter("userId"), request.getParameter("password"),
                 request.getParameter("name"),
                 request.getParameter("email"));
-        Database.addUser(user);
+        userDatabase.addUser(user);
         logger.debug("신규 유저가 생성되었습니다. {}", user);
         return "redirect:" + URLConst.LOGIN_URL;
     }
