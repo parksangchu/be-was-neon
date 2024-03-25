@@ -1,4 +1,4 @@
-package webserver.requesthandler.handlerMapper;
+package webserver.requesthandler.handlermapper;
 
 import static webserver.requesthandler.URLConst.ARTICLE_URL;
 import static webserver.requesthandler.URLConst.COMMENT_URL;
@@ -24,7 +24,8 @@ import webserver.requesthandler.http.HttpRequest;
 public class RequestHandlerMapper {
     private static final Map<String, RequestHandler> store = new HashMap<>();
 
-    public RequestHandlerMapper() {
+
+    static {
         store.put(HOME_URL, new HomeHandler());
         store.put(REGISTRATION_URL, new RegistrationHandler());
         store.put(LOGIN_URL, new LoginHandler());
@@ -34,7 +35,7 @@ public class RequestHandlerMapper {
         store.put(USER_LIST_URL, new UserListHandler());
     }
 
-    public RequestHandler findRequestHandler(HttpRequest request) {
+    public static RequestHandler findRequestHandler(HttpRequest request) {
         return store.getOrDefault(request.getURL(), new StaticResourceHandler());
     }
 }

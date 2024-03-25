@@ -8,8 +8,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import webserver.requesthandler.authenticator.Authenticator;
 import webserver.requesthandler.authenticator.UnauthenticatedURLs;
-import webserver.requesthandler.handlerMapper.RequestHandlerMapper;
+import webserver.requesthandler.handlercommander.RequestHandlerCommander;
 import webserver.requesthandler.handlerimpl.RequestHandler;
+import webserver.requesthandler.handlermapper.RequestHandlerMapper;
 import webserver.requesthandler.http.HttpRequest;
 import webserver.requesthandler.http.HttpRequestParser;
 import webserver.requesthandler.http.HttpResponse;
@@ -20,11 +21,11 @@ public class MainRequestHandler implements Runnable {
     private static final Logger logger = LoggerFactory.getLogger(MainRequestHandler.class);
 
     private final Socket connection;
-    private final RequestHandlerMapper requestHandlerMapper;
+    private final Authenticator authenticator;
 
     public MainRequestHandler(Socket connectionSocket) {
         this.connection = connectionSocket;
-        requestHandlerMapper = new RequestHandlerMapper();
+        authenticator = new Authenticator(new UnauthenticatedURLs());
     }
 
     public void run() {
@@ -35,25 +36,23 @@ public class MainRequestHandler implements Runnable {
             // TODO 사용자 요청에 대한 처리는 이 곳에 구현하면 된다.
             HttpRequest request = HttpRequestParser.parse(in);
             HttpResponse response = new HttpResponse();
-            HttpResponseWriter httpResponseWriter = new HttpResponseWriter(out);
+            HttpResponseWriter responseWriter = new HttpResponseWriter(out);
 
-            Authenticator authenticator = new Authenticator(new UnauthenticatedURLs());
             boolean isAuthenticated = authenticator.isAuthenticated(request, response);// 인증이 필요한 페이지에 접근하는지 확인
 
             if (!isAuthenticated) {
-                httpResponseWriter.send(response);
+                responseWriter.send(response);
                 return;
             }
 
-            RequestHandler requestHandler = requestHandlerMapper.findRequestHandler(request); // 매핑정보와 일치하는 서브핸들러 찾기
-            String viewPath = requestHandler.handle(request, response);
+            RequestHandler requestHandler = RequestHandlerMapper.findRequestHandler(request); // 매핑정보와 일치하는 서브핸들러 찾기
+            String viewPath = RequestHandlerCommander.execute(requestHandler, request, response); // 메서드에 따라 동작 실행
 
             if (viewPath != null) {
-                ViewResolver viewResolver = new ViewResolver();
-                viewResolver.setView(viewPath, request, response);
+                ViewResolver.setView(viewPath, request, response);
             }
 
-            httpResponseWriter.send(response);
+            responseWriter.send(response);
         } catch (IOException | IllegalAccessException e) {
             logger.error(e.getMessage());
         }
