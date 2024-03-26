@@ -1,14 +1,18 @@
 package webserver.requesthandler.handlerimpl;
 
+import db.article.ArticleDatabase;
+import db.article.ArticleMemoryDatabase;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
+import model.Article;
+import model.User;
 import webserver.requesthandler.URLConst;
-import webserver.requesthandler.http.ContentType;
 import webserver.requesthandler.http.HttpRequest;
 import webserver.requesthandler.http.HttpResponse;
+import webserver.requesthandler.session.SessionManager;
 
 public class ArticleHandler implements RequestHandler {
+    private final ArticleDatabase articleDatabase = new ArticleMemoryDatabase();
+
     @Override
     public String handleGet(HttpRequest request, HttpResponse response) throws IOException {
         return URLConst.ARTICLE_URL;
@@ -16,9 +20,14 @@ public class ArticleHandler implements RequestHandler {
 
     @Override
     public String handlePost(HttpRequest request, HttpResponse response) throws IOException {
-        byte[] file = request.getFile();
-        Files.write(Path.of("sangchu.jpeg"), file);
-        response.setBody(file, ContentType.JPEG);
-        return null;
+        User user = (User) SessionManager.findSession(request);
+        if (user != null) {
+            String content = new String(request.getBody());
+            byte[] file = request.getFile();
+            Article article = new Article(user.getUserId(), content, file); // 아티클을 생성하고 데이터베이스에 저장
+            articleDatabase.addArticle(article);
+        }
+
+        return "redirect:" + URLConst.HOME_URL;
     }
 }
