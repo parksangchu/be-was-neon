@@ -34,6 +34,26 @@ public class Headers {
                 .orElse(null);
     }
 
+    public boolean hasContentType(String contentType) {
+        String contentTypeValue = store.get(HttpConst.HEADER_CONTENT_TYPE);
+        if (contentTypeValue == null) {
+            return false;
+        }
+        return contentTypeValue.contains(contentType);
+    }
+
+    public String getContentType() {
+        return store.get(HttpConst.HEADER_CONTENT_TYPE);
+    }
+
+    public int getContentLength() {
+        String contentLength = store.get(HttpConst.HEADER_CONTENT_LENGTH);
+        if (contentLength == null) {
+            return 0;
+        }
+        return Integer.parseInt(contentLength);
+    }
+
 
     public String get(String headerKey) {
         return store.get(headerKey);

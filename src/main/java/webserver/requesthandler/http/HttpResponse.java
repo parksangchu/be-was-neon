@@ -86,7 +86,7 @@ public class HttpResponse {
     }
 
     public boolean hasEmptyBody() {
-        return body.isEmpty();
+        return body.hasEmptyContent();
     }
 
     private void setContentType(ContentType contentType) {

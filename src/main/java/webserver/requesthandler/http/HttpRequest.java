@@ -72,8 +72,8 @@ public class HttpRequest {
         return body.getStringContent();
     }
 
-    public Attributes getAttributes() {
-        return attributes;
+    public byte[] getFile() {
+        return body.getFile();
     }
 
     public Object getAttribute(String name) {

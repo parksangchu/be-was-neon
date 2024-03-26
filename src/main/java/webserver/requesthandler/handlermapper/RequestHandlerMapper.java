@@ -24,7 +24,6 @@ import webserver.requesthandler.http.HttpRequest;
 public class RequestHandlerMapper {
     private static final Map<String, RequestHandler> store = new HashMap<>();
 
-
     static {
         store.put(HOME_URL, new HomeHandler());
         store.put(REGISTRATION_URL, new RegistrationHandler());

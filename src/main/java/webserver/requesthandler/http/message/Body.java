@@ -1,29 +1,36 @@
 package webserver.requesthandler.http.message;
 
-public class Body {
-    private byte[] content;
+import java.util.HashMap;
+import java.util.Map;
 
-    public Body(byte[] content) {
-        this.content = content;
-    }
+public class Body {
+    private final Map<String, byte[]> datas = new HashMap<>();
 
     public Body() {
-        content = new byte[0];
+        datas.put("content", new byte[0]);
     }
 
     public byte[] getContent() {
-        return content;
+        return datas.get("content");
+    }
+
+    public byte[] getFile() {
+        return datas.get("file");
     }
 
     public String getStringContent() {
-        return new String(content);
+        return new String(getContent());
     }
 
     public void setContent(byte[] content) {
-        this.content = content;
+        datas.put("content", content);
     }
 
-    public boolean isEmpty() {
-        return content.length == 0;
+    public void setFile(byte[] file) {
+        datas.put("file", file);
+    }
+
+    public boolean hasEmptyContent() {
+        return getContent().length == 0;
     }
 }

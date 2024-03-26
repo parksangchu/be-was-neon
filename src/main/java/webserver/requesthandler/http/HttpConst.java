@@ -12,10 +12,10 @@ public interface HttpConst {
     String HEADER_LOCATION = "Location";
     String METHOD_GET = "GET";
     String METHOD_POST = "POST";
-    String EMPTY_STRING = "";
     String HEADER_DELIMITER = ":";
     int PARAMS_LENGTH = 2;
-    String HTML_FORM_CONTENT_TYPE = "application/x-www-form-urlencoded";
+    String HTML_FORM_DATA = "application/x-www-form-urlencoded";
+    String MULTIPART_FORM_DATA = "multipart/form-data";
     String HTTP_VERSION = "HTTP/1.1 ";
     String CRLF = "\r\n";
     String START_LINE_DELIMITER = " ";
