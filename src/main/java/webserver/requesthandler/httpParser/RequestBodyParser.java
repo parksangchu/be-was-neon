@@ -4,6 +4,7 @@ import static webserver.requesthandler.http.HttpConst.HTML_FORM_DATA;
 import static webserver.requesthandler.http.HttpConst.MULTIPART_FORM_DATA;
 
 import java.io.BufferedInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.regex.Matcher;
@@ -35,11 +36,10 @@ public class RequestBodyParser {
         int contentLength = headers.getContentLength();
         String contentType = headers.getContentType();
         byte[] boundary = ("--" + contentType.split(";\\s*")[1].split("=")[1]).getBytes();
-        byte[] parts = new byte[contentLength];
-        bis.read(parts);
+        byte[] parts = getParts(bis, contentLength);
 
         int pos = 0;
-        while (pos < contentLength) {
+        while (pos < parts.length) {
             int boundaryStart = indexOf(parts, boundary, pos); // pos부터 parts의 끝까지 바운더리가 존재하는지 확인하여 시작점 추출
             if (boundaryStart < 0) {
                 break; // 바운더리를 더이상 찾을 수 없으면 종료
@@ -66,6 +66,19 @@ public class RequestBodyParser {
         return body;
     }
 
+    private static byte[] getParts(BufferedInputStream bis, int contentLength) throws IOException {
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        byte[] buffer = new byte[1024]; // 임시 버퍼 크기
+        int totalBytesRead = 0;
+        int bytesRead;
+        while (totalBytesRead < contentLength && (bytesRead = bis.read(buffer)) != -1) {
+            bos.write(buffer, 0, bytesRead); // 읽은 데이터를 bos에 누적
+            totalBytesRead += bytesRead;
+        }
+
+        return bos.toByteArray();
+    }
+
     private static int indexOf(byte[] parts, byte[] pattern, int start) {
         for (int i = start; i <= parts.length - pattern.length; i++) {
             boolean match = true;
@@ -86,14 +99,14 @@ public class RequestBodyParser {
 
     private static void processPart(byte[] partData, Body body) {
         // partData를 바이트 배열에서 문자열로 변환합니다.
-        String partDataString = new String(partData);
+//        String partDataString = new String(partData);
         // 헤더와 데이터 분리
-        int headerEnd = partDataString.indexOf("\r\n\r\n");
+        int headerEnd = indexOf(partData, "\r\n\r\n".getBytes(), 0);
         if (headerEnd == -1) {
             return; // 헤더 종료 구분자가 없는 경우 무시합니다.
         }
 
-        String header = partDataString.substring(0, headerEnd).trim();
+        String header = new String(Arrays.copyOfRange(partData, 0, headerEnd));
         byte[] data = Arrays.copyOfRange(partData, headerEnd + 4, partData.length);
 
         // 헤더 분석
