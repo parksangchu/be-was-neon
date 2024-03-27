@@ -5,12 +5,15 @@ import db.article.ArticleMemoryDatabase;
 import java.io.IOException;
 import model.Article;
 import model.User;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import webserver.requesthandler.URLConst;
 import webserver.requesthandler.http.HttpRequest;
 import webserver.requesthandler.http.HttpResponse;
 import webserver.requesthandler.session.SessionManager;
 
 public class ArticleHandler implements RequestHandler {
+    private static final Logger logger = LoggerFactory.getLogger(ArticleHandler.class);
     private final ArticleDatabase articleDatabase = new ArticleMemoryDatabase();
 
     @Override
@@ -26,6 +29,7 @@ public class ArticleHandler implements RequestHandler {
             byte[] file = request.getFile();
             Article article = new Article(user.getUserId(), content, file); // 아티클을 생성하고 데이터베이스에 저장
             articleDatabase.addArticle(article);
+            logger.debug("새로운 게시글이 작성되었습니다. userId={}", user.getUserId());
         }
 
         return "redirect:" + URLConst.HOME_URL;
