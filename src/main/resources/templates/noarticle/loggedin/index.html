@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link href="/css/reset.css" rel="stylesheet"/>
+    <link href="/css/global.css" rel="stylesheet"/>
+    <link href="/css/main.css" rel="stylesheet"/>
+</head>
+<body>
+<div class="container">
+    <header class="header">
+        <a href="/"><img src="/img/signiture.svg"/></a>
+        <ul class="header__menu">
+            <li class="header__menu__item">
+                <a class="btn btn_contained btn_size_s" href="/articleform">글쓰기</a>
+            </li>
+            <li class="header__menu__item">
+                <a href="/logout" class="btn btn_ghost btn_size_s">
+                    로그아웃
+                </a>
+            </li>
+        </ul>
+    </header>
+
+    <!-- 여기에 문구를 추가합니다. -->
+    <div class="no-articles">
+        <p>현재 작성된 게시글이 없습니다.</p>
+    </div>
+    <!-- 문구 추가 끝 -->
+
+    <div class="wrapper">
+        <nav class="nav">
+            <ul class="nav__menu">
+                <li class="nav__menu__item">
+                    <a class="nav__menu__item__btn" href="">
+                        <img
+                                class="nav__menu__item__img"
+                                src="/img/ci_chevron-left.svg"
+                        />
+                        이전 글
+                    </a>
+                </li>
+                <li class="nav__menu__item">
+                    <a href="/articleform" class="btn btn_contained btn_size_m">글쓰기</a>
+                </li>
+                <li class="nav__menu__item">
+                    <a class="nav__menu__item__btn" href="">
+                        다음 글
+                        <img
+                                class="nav__menu__item__img"
+                                src="/img/ci_chevron-right.svg"
+                        />
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</div>
+</body>
+</html>

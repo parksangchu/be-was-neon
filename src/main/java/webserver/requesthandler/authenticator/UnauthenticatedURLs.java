@@ -1,6 +1,6 @@
 package webserver.requesthandler.authenticator;
 
-import static webserver.requesthandler.URLConst.FAVICON_ICO_URL;
+import static webserver.requesthandler.URLConst.ARTICLE_URL;
 import static webserver.requesthandler.URLConst.HOME_URL;
 import static webserver.requesthandler.URLConst.LOGIN_URL;
 import static webserver.requesthandler.URLConst.REGISTRATION_URL;
@@ -14,11 +14,12 @@ public class UnauthenticatedURLs {
     public UnauthenticatedURLs() {
         store = new HashSet<>();
         store.add(HOME_URL);
+        store.add(ARTICLE_URL);
         store.add(LOGIN_URL);
         store.add(REGISTRATION_URL);
         store.add("/css/.*");
         store.add("/img/.*");
-        store.add(FAVICON_ICO_URL);
+        store.add("/favicon.ico");
     }
 
     public boolean isLoginCheckPath(String requestPath) {

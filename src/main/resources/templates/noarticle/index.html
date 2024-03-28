@@ -22,38 +22,18 @@
             </li>
         </ul>
     </header>
+
+    <!-- 여기에 문구를 추가합니다. -->
+    <div class="no-articles">
+        <p>현재 작성된 게시글이 없습니다.</p>
+    </div>
+    <!-- 문구 추가 끝 -->
+
     <div class="wrapper">
-        <div class="post">
-            <div class="post__account">
-                <img class="post__account__img"/>
-                <p class="post__account__nickname">${article.userId}</p>
-            </div>
-            <img class="post__img" src="${article.img}"/>
-            <div class="post__menu">
-                <ul class="post__menu__personal">
-                    <li>
-                        <button class="post__menu__btn">
-                            <img src="/img/like.svg"/>
-                        </button>
-                    </li>
-                    <li>
-                        <button class="post__menu__btn">
-                            <img src="/img/sendLink.svg"/>
-                        </button>
-                    </li>
-                </ul>
-                <button class="post__menu__btn">
-                    <img src="/img/bookMark.svg"/>
-                </button>
-            </div>
-            <p class="post__article">
-                ${article.content}
-            </p>
-        </div>
         <nav class="nav">
             <ul class="nav__menu">
                 <li class="nav__menu__item">
-                    <a class="nav__menu__item__btn" href="/article?aid=${article.prev}">
+                    <a class="nav__menu__item__btn" href="">
                         <img
                                 class="nav__menu__item__img"
                                 src="/img/ci_chevron-left.svg"
@@ -62,13 +42,10 @@
                     </a>
                 </li>
                 <li class="nav__menu__item">
-                    <a href="/comment" class="btn btn_ghost btn_size_m">댓글 작성</a>
-                </li>
-                <li class="nav__menu__item">
                     <a href="/articleform" class="btn btn_contained btn_size_m">글쓰기</a>
                 </li>
                 <li class="nav__menu__item">
-                    <a class="nav__menu__item__btn" href="/article?aid=${article.next}">
+                    <a class="nav__menu__item__btn" href="">
                         다음 글
                         <img
                                 class="nav__menu__item__img"

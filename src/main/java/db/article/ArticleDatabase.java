@@ -11,4 +11,9 @@ public interface ArticleDatabase {
     List<Article> findAll();
 
     void clear();
+
+    Long getFirstId();
+
+    Long getRecentId();
+
 }

@@ -40,14 +40,14 @@ public class HtmlSetter {
         if (attribute instanceof List<?> list) { // 모델이 리스트일 경우
             return generateHtmlForList(list);
         }
-        return (String) attribute;
+        return String.valueOf(attribute);
     }
 
     private static String generateHtmlForList(List<?> list) {
         StringBuilder sb = new StringBuilder();
         for (Object o : list) { // 모델이 리스트일 경우 모든 요소들을 순회하여 추가한다
             sb.append("<tr>");
-            Field[] fields = o.getClass().getDeclaredFields();
+            Field[] fields = o.getClass().getDeclaredFields(); // 리플렉션을 이용해 모든 필드를 가져온다
             appendFields(o, fields, sb);
             sb.append("</tr>");
         }
@@ -57,7 +57,7 @@ public class HtmlSetter {
     private static void appendFields(Object o, Field[] fields, StringBuilder sb) {
         try {
             for (Field field : fields) {
-                if (!field.getName().equals("password")) { // 패스워드 공개 X
+                if (!field.getName().equals("password")) { // 패스워드는 민감한 정보이므로 공개하지 않는다
                     field.setAccessible(true);
                     Object fieldValue = field.get(o);
                     sb.append("<td>").append(fieldValue).append("</td>");

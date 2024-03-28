@@ -27,4 +27,16 @@ public class ArticleMemoryDatabase implements ArticleDatabase {
         articles.clear();
         sequenceId = 0L;
     }
+
+    @Override
+    public Long getFirstId() {
+        return articles.keySet().stream()
+                .reduce(Math::min)
+                .orElse(0L);
+    }
+
+    @Override
+    public Long getRecentId() {
+        return sequenceId;
+    }
 }

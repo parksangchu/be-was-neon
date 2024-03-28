@@ -1,5 +1,6 @@
 package webserver.requesthandler.handlermapper;
 
+import static webserver.requesthandler.URLConst.ARTICLE_FORM_URL;
 import static webserver.requesthandler.URLConst.ARTICLE_URL;
 import static webserver.requesthandler.URLConst.COMMENT_URL;
 import static webserver.requesthandler.URLConst.HOME_URL;
@@ -10,6 +11,7 @@ import static webserver.requesthandler.URLConst.USER_LIST_URL;
 
 import java.util.HashMap;
 import java.util.Map;
+import webserver.requesthandler.handlerimpl.ArticleFormHandler;
 import webserver.requesthandler.handlerimpl.ArticleHandler;
 import webserver.requesthandler.handlerimpl.CommentHandler;
 import webserver.requesthandler.handlerimpl.HomeHandler;
@@ -29,6 +31,7 @@ public class RequestHandlerMapper {
         store.put(REGISTRATION_URL, new RegistrationHandler());
         store.put(LOGIN_URL, new LoginHandler());
         store.put(LOGOUT_URL, new LogoutHandler());
+        store.put(ARTICLE_FORM_URL, new ArticleFormHandler());
         store.put(ARTICLE_URL, new ArticleHandler());
         store.put(COMMENT_URL, new CommentHandler());
         store.put(USER_LIST_URL, new UserListHandler());
