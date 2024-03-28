@@ -29,7 +29,7 @@ class AuthenticatorTest {
 
     @ParameterizedTest
     @DisplayName("인증이 필요한 경로에 미로그인 상태로 접근하면 로그인 화면으로 리다이렉트 되며 원래 접근하려고 했던 경로를 쿼리 파람으로 전달한다.")
-    @ValueSource(strings = {"/article", "/comment"})
+    @ValueSource(strings = {"/articleform", "/comment", "/user/list"})
     void isUnAuthenticated(String path) throws IOException {
         request.setURL(path);
         request.setHeaders(new HashMap<>());
@@ -43,7 +43,7 @@ class AuthenticatorTest {
 
     @ParameterizedTest
     @DisplayName("인증이 필요한 경로에 로그인 상태로 접근하면 정상 응답이 나온다.")
-    @ValueSource(strings = {"/article", "/comment"})
+    @ValueSource(strings = {"/article", "/comment", "/user/list"})
     void isAuthenticated(String path) throws IOException {
         Map<String, String> headers = new HashMap<>();
         headers.put("Cookie", "SID=123456");

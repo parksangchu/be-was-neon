@@ -1,6 +1,7 @@
 package webserver.requesthandler.session;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static webserver.requesthandler.http.HttpConst.CRLF;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -21,11 +22,10 @@ class SessionManagerTest {
 
     @BeforeEach
     void setUp() throws IOException {
-        String requestString = """
-                GET /registration HTTP/1.1
-                Cookie: SID=123456
-                                
-                """;
+        String requestString =
+                "GET /registration HTTP/1.1" + CRLF
+                        + "Cookie: SID=123456" + CRLF
+                        + CRLF;
 
         byte[] byteArray = requestString.getBytes(StandardCharsets.UTF_8);
 

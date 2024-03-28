@@ -59,11 +59,6 @@ public class Headers {
         return store.get(headerKey);
     }
 
-
-    public boolean containsKey(String key) {
-        return store.containsKey(key);
-    }
-
     public Map<String, String> getStore() {
         return this.store;
     }

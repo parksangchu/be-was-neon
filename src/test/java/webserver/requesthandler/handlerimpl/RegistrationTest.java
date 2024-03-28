@@ -26,9 +26,9 @@ class RegistrationTest {
         RegistrationHandler registrationHandler = new RegistrationHandler();
         registrationHandler.handlePost(request, new HttpResponse());
 
-        User user = userDatabase.findUserById("sangchu");
+        User user = userDatabase.findUserByLoginId("sangchu");
 
-        assertThat(user.getUserId()).isEqualTo("sangchu");
+        assertThat(user.getLoginId()).isEqualTo("sangchu");
         assertThat(user.getPassword()).isEqualTo("password");
         assertThat(user.getName()).isEqualTo("상추");
         assertThat(user.getEmail()).isEqualTo("sangchu@gmail.com");

@@ -27,7 +27,7 @@ public class LoginHandler implements RequestHandler {
         String userId = request.getParameter("userId");
         String password = request.getParameter("password");
 
-        User findUser = userDatabase.findUserById(userId);
+        User findUser = userDatabase.findUserByLoginId(userId);
         if (findUser == null || !findUser.hasSamePassword(password)) { // 일치하는 Id가 없거나 비밀번호가 다를 경우
             return URLConst.LOGIN_URL + "/fail";
         }

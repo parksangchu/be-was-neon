@@ -61,6 +61,9 @@ public class HttpRequestParser {
         String line;
         while ((line = BISReader.readLine(bis)) != null && !line.isEmpty()) {
             String[] headerParts = line.split(HEADER_DELIMITER);
+            for (String headerPart : headerParts) {
+                System.out.println("headerPart = " + headerPart);
+            }
             headers.put(headerParts[0].trim(), headerParts[1].trim());
         }
         return new Headers(headers);

@@ -52,6 +52,10 @@ public class HttpRequest {
         return headers.get(headerKey);
     }
 
+    public String getContentType() {
+        return headers.getContentType();
+    }
+
     public String getParameter(String paramKey) {
         return parameters.get(paramKey);
     }

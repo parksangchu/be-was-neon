@@ -1,13 +1,14 @@
 package model;
 
 public class User {
-    private String userId;
+    private String loginId;
     private String password;
     private String name;
     private String email;
+    private Long sequenceId;
 
-    public User(String userId, String password, String name, String email) {
-        this.userId = userId;
+    public User(String loginId, String password, String name, String email) {
+        this.loginId = loginId;
         this.password = password;
         this.name = name;
         this.email = email;
@@ -17,8 +18,8 @@ public class User {
         return this.password.equals(password);
     }
 
-    public String getUserId() {
-        return userId;
+    public String getLoginId() {
+        return loginId;
     }
 
     public String getPassword() {
@@ -33,8 +34,16 @@ public class User {
         return email;
     }
 
+    public Long getSequenceId() {
+        return sequenceId;
+    }
+
+    public void setSequenceId(Long sequenceId) {
+        this.sequenceId = sequenceId;
+    }
+
     @Override
     public String toString() {
-        return "User [userId=" + userId + ", password=" + password + ", name=" + name + ", email=" + email + "]";
+        return "User [loginId=" + loginId + ", password=" + password + ", name=" + name + ", email=" + email + "]";
     }
 }

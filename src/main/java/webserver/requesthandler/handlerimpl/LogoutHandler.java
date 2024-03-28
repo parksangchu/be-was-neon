@@ -17,7 +17,7 @@ public class LogoutHandler implements RequestHandler {
 
         if (user != null) {
             SessionManager.expire(request);
-            logger.debug("{} 님이 로그아웃 하셨습니다.", user.getUserId());
+            logger.debug("{} 님이 로그아웃 하셨습니다.", user.getLoginId());
             return "redirect:" + URLConst.HOME_URL;
         }
         return null;

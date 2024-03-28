@@ -27,9 +27,9 @@ public class ArticleFormHandler implements RequestHandler {
         if (user != null) {
             String content = new String(request.getBody());
             byte[] file = request.getFile();
-            Article article = new Article(user.getUserId(), content, file); // 아티클을 생성하고 데이터베이스에 저장
+            Article article = new Article(user.getLoginId(), content, file); // 아티클을 생성하고 데이터베이스에 저장
             articleDatabase.addArticle(article);
-            logger.debug("새로운 게시글이 작성되었습니다. aid={}, userId={}", article.getSequenceId(), user.getUserId());
+            logger.debug("새로운 게시글이 작성되었습니다. aid={}, userId={}", article.getSequenceId(), user.getLoginId());
         }
 
         return "redirect:" + URLConst.HOME_URL;
