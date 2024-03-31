@@ -1,7 +1,6 @@
 package webserver.requesthandler.handlerimpl;
 
 import db.user.UserDatabase;
-import db.user.UserMemoryDatabase;
 import java.io.IOException;
 import model.User;
 import org.slf4j.Logger;
@@ -12,7 +11,11 @@ import webserver.requesthandler.http.HttpResponse;
 
 public class RegistrationHandler implements RequestHandler {
     private static final Logger logger = LoggerFactory.getLogger(RegistrationHandler.class);
-    private final UserDatabase userDatabase = new UserMemoryDatabase();
+    private final UserDatabase userDatabase;
+
+    public RegistrationHandler(UserDatabase userDatabase) {
+        this.userDatabase = userDatabase;
+    }
 
     @Override
     public String handleGet(HttpRequest request, HttpResponse response) throws IOException {
@@ -21,7 +24,7 @@ public class RegistrationHandler implements RequestHandler {
 
     @Override
     public String handlePost(HttpRequest request, HttpResponse response) {
-        User user = new User(request.getParameter("userId"), request.getParameter("password"),
+        User user = new User(request.getParameter("loginId"), request.getParameter("password"),
                 request.getParameter("name"),
                 request.getParameter("email"));
         userDatabase.addUser(user);

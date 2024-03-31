@@ -1,7 +1,6 @@
 package webserver.requesthandler.handlerimpl;
 
 import db.article.ArticleDatabase;
-import db.article.ArticleMemoryDatabase;
 import java.io.IOException;
 import model.Article;
 import model.User;
@@ -14,7 +13,11 @@ import webserver.requesthandler.session.SessionManager;
 
 public class ArticleFormHandler implements RequestHandler {
     private static final Logger logger = LoggerFactory.getLogger(ArticleFormHandler.class);
-    private final ArticleDatabase articleDatabase = new ArticleMemoryDatabase();
+    private final ArticleDatabase articleDatabase;
+
+    public ArticleFormHandler(ArticleDatabase articleDatabase) {
+        this.articleDatabase = articleDatabase;
+    }
 
     @Override
     public String handleGet(HttpRequest request, HttpResponse response) throws IOException {

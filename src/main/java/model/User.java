@@ -1,11 +1,11 @@
 package model;
 
 public class User {
+    private Long sequenceId;
     private String loginId;
     private String password;
     private String name;
     private String email;
-    private Long sequenceId;
 
     public User(String loginId, String password, String name, String email) {
         this.loginId = loginId;

@@ -1,5 +1,7 @@
 package webserver.requesthandler.handlermapper;
 
+import static utils.DIContainer.getArticleDatabase;
+import static utils.DIContainer.getUserDatabase;
 import static webserver.requesthandler.URLConst.ARTICLE_FORM_URL;
 import static webserver.requesthandler.URLConst.ARTICLE_URL;
 import static webserver.requesthandler.URLConst.COMMENT_URL;
@@ -27,14 +29,14 @@ public class RequestHandlerMapper {
     private static final Map<String, RequestHandler> store = new HashMap<>();
 
     static {
-        store.put(HOME_URL, new HomeHandler());
-        store.put(REGISTRATION_URL, new RegistrationHandler());
-        store.put(LOGIN_URL, new LoginHandler());
+        store.put(HOME_URL, new HomeHandler(getArticleDatabase()));
+        store.put(REGISTRATION_URL, new RegistrationHandler(getUserDatabase()));
+        store.put(LOGIN_URL, new LoginHandler(getUserDatabase()));
         store.put(LOGOUT_URL, new LogoutHandler());
-        store.put(ARTICLE_FORM_URL, new ArticleFormHandler());
-        store.put(ARTICLE_URL, new ArticleHandler());
+        store.put(ARTICLE_FORM_URL, new ArticleFormHandler(getArticleDatabase()));
+        store.put(ARTICLE_URL, new ArticleHandler(getArticleDatabase()));
         store.put(COMMENT_URL, new CommentHandler());
-        store.put(USER_LIST_URL, new UserListHandler());
+        store.put(USER_LIST_URL, new UserListHandler(getUserDatabase()));
     }
 
     public static RequestHandler findRequestHandler(HttpRequest request) {

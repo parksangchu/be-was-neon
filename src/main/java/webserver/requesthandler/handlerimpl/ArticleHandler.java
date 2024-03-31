@@ -1,7 +1,6 @@
 package webserver.requesthandler.handlerimpl;
 
 import db.article.ArticleDatabase;
-import db.article.ArticleMemoryDatabase;
 import java.io.IOException;
 import java.util.Base64;
 import model.Article;
@@ -13,7 +12,11 @@ import webserver.requesthandler.session.SessionManager;
 
 public class ArticleHandler implements RequestHandler {
     public static final String BASE_64_IMG_PREFIX = "data:image/jpeg;base64,";
-    private final ArticleDatabase articleDatabase = new ArticleMemoryDatabase();
+    private final ArticleDatabase articleDatabase;
+
+    public ArticleHandler(ArticleDatabase articleDatabase) {
+        this.articleDatabase = articleDatabase;
+    }
 
     @Override
     public String handleGet(HttpRequest request, HttpResponse response) throws IOException {

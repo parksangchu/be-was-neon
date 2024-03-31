@@ -1,7 +1,6 @@
 package webserver.requesthandler.handlerimpl;
 
 import db.user.UserDatabase;
-import db.user.UserMemoryDatabase;
 import java.io.IOException;
 import java.util.Objects;
 import model.User;
@@ -15,7 +14,11 @@ import webserver.requesthandler.session.SessionManager;
 
 public class LoginHandler implements RequestHandler {
     private static final Logger logger = LoggerFactory.getLogger(LoginHandler.class);
-    private final UserDatabase userDatabase = new UserMemoryDatabase();
+    private final UserDatabase userDatabase;
+
+    public LoginHandler(UserDatabase userDatabase) {
+        this.userDatabase = userDatabase;
+    }
 
     @Override
     public String handleGet(HttpRequest request, HttpResponse response) throws IOException {
@@ -24,10 +27,10 @@ public class LoginHandler implements RequestHandler {
 
     @Override
     public String handlePost(HttpRequest request, HttpResponse response) throws IOException {
-        String userId = request.getParameter("userId");
+        String loginId = request.getParameter("loginId");
         String password = request.getParameter("password");
 
-        User findUser = userDatabase.findUserByLoginId(userId);
+        User findUser = userDatabase.findUserByLoginId(loginId);
         if (findUser == null || !findUser.hasSamePassword(password)) { // 일치하는 Id가 없거나 비밀번호가 다를 경우
             return URLConst.LOGIN_URL + "/fail";
         }
@@ -36,7 +39,7 @@ public class LoginHandler implements RequestHandler {
         SessionManager.createSession(findUser, response, SID);
         String redirectURL = getRedirectURL(request);
 
-        logger.debug("{} 님이 로그인 하셨습니다.", userId);
+        logger.debug("{} 님이 로그인 하셨습니다.", loginId);
         return "redirect:" + redirectURL;
     }
 

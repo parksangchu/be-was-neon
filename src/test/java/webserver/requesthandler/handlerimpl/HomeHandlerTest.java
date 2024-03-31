@@ -25,7 +25,7 @@ class HomeHandlerTest {
     @BeforeEach
     void setUp() {
         articleDatabase.clear();
-        requestHandler = new HomeHandler();
+        requestHandler = new HomeHandler(new ArticleMemoryDatabase());
         request = new HttpRequest();
         response = new HttpResponse();
     }
