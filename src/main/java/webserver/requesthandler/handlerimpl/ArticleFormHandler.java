@@ -11,6 +11,9 @@ import webserver.requesthandler.http.HttpRequest;
 import webserver.requesthandler.http.HttpResponse;
 import webserver.requesthandler.session.SessionManager;
 
+/**
+ * 게시글 작성 폼 요청을 처리하는 핸들러입니다.
+ */
 public class ArticleFormHandler implements RequestHandler {
     private static final Logger logger = LoggerFactory.getLogger(ArticleFormHandler.class);
     private final ArticleDatabase articleDatabase;
@@ -19,11 +22,27 @@ public class ArticleFormHandler implements RequestHandler {
         this.articleDatabase = articleDatabase;
     }
 
+    /**
+     * 게시글 작성 폼을 보여주기 위한 GET 요청을 처리합니다.
+     *
+     * @param request  HTTP 요청 정보
+     * @param response HTTP 응답 정보
+     * @return 게시글 작성 폼의 URL
+     * @throws IOException 입출력 처리 중 발생할 수 있는 예외
+     */
     @Override
     public String handleGet(HttpRequest request, HttpResponse response) throws IOException {
         return URLConst.ARTICLE_FORM_URL;
     }
 
+    /**
+     * 사용자가 작성한 게시글을 저장하기 위한 POST 요청을 처리합니다.
+     *
+     * @param request  HTTP 요청 정보
+     * @param response HTTP 응답 정보
+     * @return 홈 화면으로의 리다이렉트 URL
+     * @throws IOException 입출력 처리 중 발생할 수 있는 예외
+     */
     @Override
     public String handlePost(HttpRequest request, HttpResponse response) throws IOException {
         User user = (User) SessionManager.findSession(request);

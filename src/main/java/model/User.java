@@ -2,6 +2,9 @@ package model;
 
 import java.util.Objects;
 
+/**
+ * 웹서버에 회원가입한 사용자의 정보를 저장하는 클래스
+ */
 public class User {
     private Long sequenceId;
     private String loginId;

@@ -23,7 +23,17 @@ import webserver.requesthandler.http.message.Headers;
 import webserver.requesthandler.http.message.Parameters;
 import webserver.requesthandler.http.message.RequestLine;
 
+/**
+ * InputStream으로부터 HttpRequest 객체를 파싱하는 클래스입니다.
+ */
 public class HttpRequestParser {
+    /**
+     * InputStream에서 HttpRequest 데이터를 파싱합니다.
+     *
+     * @param in 클라이언트로부터 받은 InputStream
+     * @return 파싱된 HttpRequest 객체
+     * @throws IOException 데이터 읽기 중 발생한 오류
+     */
     public static HttpRequest parse(InputStream in) throws IOException {
         BufferedInputStream bis = new BufferedInputStream(in);
 

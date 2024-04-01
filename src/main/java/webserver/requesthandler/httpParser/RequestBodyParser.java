@@ -13,6 +13,14 @@ import webserver.requesthandler.http.message.Body;
 import webserver.requesthandler.http.message.Headers;
 
 public class RequestBodyParser {
+    /**
+     * Headers를 기반으로 HTTP 요청 본문을 추출합니다.
+     *
+     * @param bis     BufferedInputStream, 요청 본문이 포함된 스트림
+     * @param headers HTTP 요청 헤더
+     * @return HTTP 요청 본문
+     * @throws IOException 본문 읽기 중 오류가 발생한 경우
+     */
     public static Body extractBody(BufferedInputStream bis, Headers headers) throws IOException {
         Body body = new Body();
         if (headers.hasContentType(HTML_FORM_DATA)) {

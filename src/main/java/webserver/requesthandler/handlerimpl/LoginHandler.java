@@ -12,6 +12,9 @@ import webserver.requesthandler.http.HttpRequest;
 import webserver.requesthandler.http.HttpResponse;
 import webserver.requesthandler.session.SessionManager;
 
+/**
+ * 로그인 요청을 처리하는 핸들러입니다.
+ */
 public class LoginHandler implements RequestHandler {
     private static final Logger logger = LoggerFactory.getLogger(LoginHandler.class);
     private final UserDatabase userDatabase;
@@ -20,11 +23,27 @@ public class LoginHandler implements RequestHandler {
         this.userDatabase = userDatabase;
     }
 
+    /**
+     * 로그인 폼을 보여주기 위한 GET 요청을 처리합니다.
+     *
+     * @param request  HTTP 요청 정보
+     * @param response HTTP 응답 정보
+     * @return 로그인 폼 URL
+     * @throws IOException 입출력 처리 중 발생할 수 있는 예외
+     */
     @Override
     public String handleGet(HttpRequest request, HttpResponse response) throws IOException {
         return URLConst.LOGIN_URL;
     }
 
+    /**
+     * 사용자 로그인 정보를 처리하기 위한 POST 요청을 처리합니다. 성공적으로 로그인한 경우, 지정된 리다이렉션 URL로 이동합니다.
+     *
+     * @param request  HTTP 요청 정보
+     * @param response HTTP 응답 정보
+     * @return 로그인 성공 후 리다이렉트될 URL
+     * @throws IOException 입출력 처리 중 발생할 수 있는 예외
+     */
     @Override
     public String handlePost(HttpRequest request, HttpResponse response) throws IOException {
         String loginId = request.getParameter("loginId");

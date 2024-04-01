@@ -8,7 +8,9 @@ import webserver.requesthandler.http.message.Headers;
 import webserver.requesthandler.http.message.Parameters;
 import webserver.requesthandler.http.message.RequestLine;
 
-public class HttpRequest {
+public class
+
+HttpRequest {
     private RequestLine requestLine;
     private Headers headers;
     private Body body;

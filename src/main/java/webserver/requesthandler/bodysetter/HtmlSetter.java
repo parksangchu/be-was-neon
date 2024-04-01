@@ -9,10 +9,21 @@ import utils.FileManager;
 import webserver.requesthandler.http.HttpRequest;
 import webserver.requesthandler.http.HttpResponse;
 
+/**
+ * HTML 응답 본문을 설정하는 클래스입니다. HTML 템플릿에 모델 데이터를 적용하여 동적인 웹 페이지를 생성합니다.
+ */
 public class HtmlSetter {
 
     public static final Pattern MODEL_PATTERN = Pattern.compile("\\$\\{(.*?)}");
 
+    /**
+     * 지정된 뷰 경로에 해당하는 HTML 템플릿을 로드하고, 요청에 포함된 모델 데이터로 내용을 수정하여 응답의 HTML 본문으로 설정합니다.
+     *
+     * @param request  요청 객체, 모델 데이터를 포함할 수 있습니다.
+     * @param response 응답 객체, 수정된 HTML 본문이 설정됩니다.
+     * @param viewPath 뷰 파일의 경로.
+     * @throws IOException 템플릿 파일을 로드하는 과정에서 발생하는 예외.
+     */
     public static void setView(HttpRequest request, HttpResponse response, String viewPath)
             throws IOException {
         byte[] template = FileManager.getTemplate(viewPath);

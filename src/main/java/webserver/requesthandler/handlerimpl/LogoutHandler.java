@@ -8,9 +8,19 @@ import webserver.requesthandler.http.HttpRequest;
 import webserver.requesthandler.http.HttpResponse;
 import webserver.requesthandler.session.SessionManager;
 
+/**
+ * 로그아웃 요청을 처리하는 핸들러입니다.
+ */
 public class LogoutHandler implements RequestHandler {
     private static final Logger logger = LoggerFactory.getLogger(LogoutHandler.class);
 
+    /**
+     * 사용자의 로그아웃 요청을 처리하기 위한 GET 메소드입니다. 로그아웃 후 홈 화면으로 리다이렉트합니다.
+     *
+     * @param request  HTTP 요청 정보
+     * @param response HTTP 응답 정보
+     * @return 홈 화면으로의 리다이렉트 URL
+     */
     @Override
     public String handleGet(HttpRequest request, HttpResponse response) {
         User user = (User) SessionManager.findSession(request);

@@ -3,6 +3,9 @@ package model;
 import java.util.Arrays;
 import java.util.Objects;
 
+/**
+ * 웹서버상에 보여줄 Article 객체를 저장하는 클래스
+ */
 public class Article {
     private String userId;
     private String content;

@@ -9,13 +9,27 @@ import java.util.Map;
 import webserver.requesthandler.http.HttpConst;
 import webserver.requesthandler.http.HttpResponse;
 
+/**
+ * HttpResponse 객체를 사용하여 클라이언트에게 HTTP 응답을 보내는 클래스입니다.
+ */
 public class HttpResponseWriter {
     private final OutputStream out;
 
+    /**
+     * HttpResponseWriter 생성자.
+     *
+     * @param out 응답을 보낼 OutputStream
+     */
     public HttpResponseWriter(OutputStream out) {
         this.out = out;
     }
 
+    /**
+     * 주어진 HttpResponse 객체에 따라 클라이언트에 응답을 보냅니다.
+     *
+     * @param response 보낼 HTTP 응답
+     * @throws IOException 응답 전송 중 오류가 발생한 경우
+     */
     public void send(HttpResponse response) throws IOException {
         DataOutputStream dos = new DataOutputStream(out);
         dos.writeBytes(HttpConst.HTTP_VERSION + response.getStatus().getValue() + HttpConst.START_LINE_DELIMITER
