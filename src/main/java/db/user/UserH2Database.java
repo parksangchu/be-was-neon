@@ -78,7 +78,7 @@ public class UserH2Database implements UserDatabase {
 
     @Override
     public void clear() {
-        String sql = "delete from \"user\"";
+        String sql = "truncate table \"user\" restart identity";
         try (Connection conn = DatabaseConnector.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.executeUpdate();

@@ -1,5 +1,7 @@
 package model;
 
+import java.util.Objects;
+
 public class User {
     private Long sequenceId;
     private String loginId;
@@ -45,5 +47,23 @@ public class User {
     @Override
     public String toString() {
         return "User [loginId=" + loginId + ", password=" + password + ", name=" + name + ", email=" + email + "]";
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        if (this == object) {
+            return true;
+        }
+        if (object == null || getClass() != object.getClass()) {
+            return false;
+        }
+        User user = (User) object;
+        return Objects.equals(loginId, user.loginId) && Objects.equals(password, user.password)
+                && Objects.equals(name, user.name) && Objects.equals(email, user.email);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(loginId, password, name, email);
     }
 }

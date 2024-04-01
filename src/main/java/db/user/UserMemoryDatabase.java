@@ -25,5 +25,6 @@ public class UserMemoryDatabase implements UserDatabase {
 
     public void clear() {
         users.clear();
+        sequenceId = 0L;
     }
 }

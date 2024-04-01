@@ -1,5 +1,8 @@
 package model;
 
+import java.util.Arrays;
+import java.util.Objects;
+
 public class Article {
     private String userId;
     private String content;
@@ -42,5 +45,35 @@ public class Article {
 
     public void setSequenceId(Long sequenceId) {
         this.sequenceId = sequenceId;
+    }
+
+    @Override
+    public String toString() {
+        return "Article{" +
+                "userId='" + userId + '\'' +
+                ", content='" + content + '\'' +
+                ", file=" + Arrays.toString(file) +
+                ", sequenceId=" + sequenceId +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        if (this == object) {
+            return true;
+        }
+        if (object == null || getClass() != object.getClass()) {
+            return false;
+        }
+        Article article = (Article) object;
+        return Objects.equals(userId, article.userId) && Objects.equals(content, article.content)
+                && Arrays.equals(file, article.file);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = Objects.hash(userId, content);
+        result = 31 * result + Arrays.hashCode(file);
+        return result;
     }
 }
