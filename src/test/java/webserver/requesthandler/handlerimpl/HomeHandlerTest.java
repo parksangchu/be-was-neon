@@ -3,7 +3,6 @@ package webserver.requesthandler.handlerimpl;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import db.article.ArticleDatabase;
-import db.article.ArticleMemoryDatabase;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -12,12 +11,13 @@ import model.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import utils.DIContainer;
 import webserver.requesthandler.http.HttpRequest;
 import webserver.requesthandler.http.HttpResponse;
 import webserver.requesthandler.session.SessionManager;
 
 class HomeHandlerTest {
-    ArticleDatabase articleDatabase = new ArticleMemoryDatabase();
+    ArticleDatabase articleDatabase = DIContainer.getArticleDatabase();
     RequestHandler requestHandler;
     HttpRequest request;
     HttpResponse response;
@@ -25,7 +25,7 @@ class HomeHandlerTest {
     @BeforeEach
     void setUp() {
         articleDatabase.clear();
-        requestHandler = new HomeHandler(new ArticleMemoryDatabase());
+        requestHandler = new HomeHandler(articleDatabase);
         request = new HttpRequest();
         response = new HttpResponse();
     }
