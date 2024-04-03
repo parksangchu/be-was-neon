@@ -2,6 +2,7 @@ package webserver.requesthandler.bodysetter;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -36,7 +37,7 @@ public class HtmlSetter {
     }
 
     private static byte[] getModifiedHtml(HttpRequest request, byte[] template) {
-        String htmlText = new String(template);
+        String htmlText = new String(template, StandardCharsets.UTF_8);
         Matcher matcher = MODEL_PATTERN.matcher(htmlText);
         while (matcher.find()) {
             String modelName = matcher.group(1);
