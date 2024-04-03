@@ -1,12 +1,9 @@
 package webserver;
 
-import db.user.UserDatabase;
-import db.user.UserH2Database;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import model.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import webserver.requesthandler.MainRequestHandler;
@@ -27,7 +24,7 @@ public class WebServer {
      * @throws Exception 서버 시작 중 발생할 수 있는 예외
      */
     public static void main(String[] args) throws Exception {
-        createTestUser();
+//        createTestUser();
         int port;
         if (args == null || args.length == 0) {
             port = DEFAULT_PORT;
@@ -50,12 +47,12 @@ public class WebServer {
             }
         }
     }
-
+/*
     private static void createTestUser() {
         UserDatabase userDatabase = new UserH2Database();
         if (userDatabase.findAll().isEmpty()) {
             User user = new User("sangchu", "123", "상추", "sangchu@gmail.com");
             userDatabase.addUser(user);
         }
-    }
+    }*/
 }
