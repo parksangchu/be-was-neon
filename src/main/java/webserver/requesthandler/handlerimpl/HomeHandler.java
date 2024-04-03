@@ -29,7 +29,7 @@ public class HomeHandler implements RequestHandler {
     @Override
     public String handleGet(HttpRequest request, HttpResponse response) throws IOException {
         Long recentArticleId = articleDatabase.getRecentId();
-        if (recentArticleId != null) { // 아티클이 존재할 경우 최근 아티클로 이동
+        if (recentArticleId != null && recentArticleId != 0) { // 아티클이 존재할 경우 최근 아티클로 이동
             return "redirect:" + URLConst.ARTICLE_URL + "?aid=" + recentArticleId;
         }
         //존재하지 않을 경우 아티클이 존재하지 않다는 화면 표시
